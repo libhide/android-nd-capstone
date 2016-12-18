@@ -8,7 +8,7 @@
     android:background="@color/colorPrimary"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.ratik.todone.ListInputActivity"
+    tools:context="com.ratik.todone.ui.ListInputActivity"
     tools:showIn="@layout/activity_list_input">
 
     <EditText

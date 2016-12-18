@@ -1,4 +1,4 @@
-package com.ratik.todone;
+package com.ratik.todone.ui;
 
 /**
  * Created by Ratik on 17/12/16.

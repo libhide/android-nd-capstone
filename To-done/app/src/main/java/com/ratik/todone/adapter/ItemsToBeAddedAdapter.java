@@ -1,4 +1,4 @@
-package com.ratik.todone;
+package com.ratik.todone.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import com.ratik.todone.R;
 
 import java.util.ArrayList;
 import java.util.List;

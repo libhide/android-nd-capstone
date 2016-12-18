@@ -1,4 +1,4 @@
-package com.ratik.todone;
+package com.ratik.todone.ui;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
