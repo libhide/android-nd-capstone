@@ -1,4 +1,4 @@
-package com.ratik.todone;
+package com.ratik.todone.provider;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -11,13 +11,10 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import com.ratik.todone.db.TodoContract;
-import com.ratik.todone.db.TodoDbHelper;
-
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static com.ratik.todone.db.TodoContract.TodoEntry.TABLE_NAME;
+import static com.ratik.todone.provider.TodoContract.TodoEntry.TABLE_NAME;
 
 /**
  * Created by Ratik on 18/12/16.

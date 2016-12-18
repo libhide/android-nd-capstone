@@ -28,7 +28,7 @@
         <activity android:name=".ui.MainActivity" />
 
         <provider
-            android:name=".TodoProvider"
+            android:name=".provider.TodoProvider"
             android:authorities="com.ratik.todone.provider"
             android:exported="false" />
     </application>

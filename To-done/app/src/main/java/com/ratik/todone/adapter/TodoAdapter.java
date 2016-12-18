@@ -2,6 +2,8 @@ package com.ratik.todone.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ratik.todone.R;
-import com.ratik.todone.db.TodoContract;
+import com.ratik.todone.provider.TodoContract;
 
 /**
  * Created by Ratik on 19/12/16.
@@ -28,8 +30,8 @@ public class TodoAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView todoTextView = (TextView) view.findViewById(R.id.todoTextView);
-        ImageButton doneButton = (ImageButton) view.findViewById(R.id.doneButton);
+        final TextView todoTextView = (TextView) view.findViewById(R.id.todoTextView);
+        final ImageButton doneButton = (ImageButton) view.findViewById(R.id.doneButton);
 
         String task = cursor.getString(cursor.getColumnIndex(
                 TodoContract.TodoEntry.COLUMN_TASK));
@@ -38,7 +40,20 @@ public class TodoAdapter extends CursorAdapter {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                todoTextView.setPaintFlags(todoTextView.getPaintFlags()
+                        | Paint.STRIKE_THRU_TEXT_FLAG);
+                todoTextView.setTextColor(Color.argb(150, 255, 255, 255));
+                doneButton.setVisibility(View.INVISIBLE);
+            }
+        });
 
+        todoTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                todoTextView.setPaintFlags(todoTextView.getPaintFlags()
+                        & (~ Paint.STRIKE_THRU_TEXT_FLAG));
+                todoTextView.setTextColor(Color.argb(255, 255, 255, 255));
+                doneButton.setVisibility(View.VISIBLE);
             }
         });
     }

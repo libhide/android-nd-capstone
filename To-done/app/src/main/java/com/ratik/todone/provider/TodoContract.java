@@ -1,4 +1,4 @@
-package com.ratik.todone.db;
+package com.ratik.todone.provider;
 
 import android.provider.BaseColumns;
 

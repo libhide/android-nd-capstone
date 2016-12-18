@@ -9,9 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 
 import com.ratik.todone.R;
-import com.ratik.todone.TodoProvider;
+import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.adapter.TodoAdapter;
-import com.ratik.todone.db.TodoContract;
+import com.ratik.todone.provider.TodoContract;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {

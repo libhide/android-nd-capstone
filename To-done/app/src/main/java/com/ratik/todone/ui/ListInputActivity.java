@@ -14,12 +14,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pixplicity.easyprefs.library.Prefs;
-import com.ratik.todone.TodoProvider;
+import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.util.Constants;
 import com.ratik.todone.adapter.ItemsToBeAddedAdapter;
 import com.ratik.todone.R;
-import com.ratik.todone.db.TodoContract.TodoEntry;
-import com.ratik.todone.db.TodoDbHelper;
+import com.ratik.todone.provider.TodoContract.TodoEntry;
+import com.ratik.todone.provider.TodoDbHelper;
 
 import java.util.ArrayList;
 import java.util.List;

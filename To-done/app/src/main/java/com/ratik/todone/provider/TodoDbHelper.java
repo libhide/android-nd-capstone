@@ -1,10 +1,10 @@
-package com.ratik.todone.db;
+package com.ratik.todone.provider;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import static com.ratik.todone.db.TodoContract.TodoEntry.TABLE_NAME;
+import static com.ratik.todone.provider.TodoContract.TodoEntry.TABLE_NAME;
 
 /**
  * Created by Ratik on 17/12/16.
