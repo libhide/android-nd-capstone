@@ -19,6 +19,8 @@ public class ListInputActivity extends AppCompatActivity {
     private List<String> tasks;
     private ItemsToBeAddedAdapter adapter;
 
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class ListInputActivity extends AppCompatActivity {
         adapter = new ItemsToBeAddedAdapter(this, tasks);
         itemsToAddList.setAdapter(adapter);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,5 +58,11 @@ public class ListInputActivity extends AppCompatActivity {
     private void addItem(String s) {
         tasks.add(s);
         adapter.notifyDataSetChanged();
+
+        // start showing fab when
+        // 3 or more items have been added
+        if (tasks.size() >= 3) {
+            fab.setVisibility(View.VISIBLE);
+        }
     }
 }
