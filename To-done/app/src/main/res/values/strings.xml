@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">To-done</string>
+    <string name="initialize_text">Initialize new list</string>
+    <string name="form_message">Select the time duration in which you want to complete the tasks. 👉</string>
+    <string name="title_activity_list_input">ListInputActivity</string>
+    <string name="enter_task_hint">Enter a task</string>
+    <string name="content_desc_cancel_button">Cancel Button</string>
 </resources>

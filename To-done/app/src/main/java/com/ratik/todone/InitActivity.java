@@ -1,31 +1,36 @@
 package com.ratik.todone;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
-import com.ratik.todone.db.TodoContract;
-import com.ratik.todone.db.TodoDbHelper;
+public class InitActivity extends AppCompatActivity implements OnTimeSetListener {
 
-public class InitActivity extends AppCompatActivity {
+    private static final String HOUR_OF_DAY = "hour";
+    private static final String MINUTE = "minute";
 
-    private static final String TAG = InitActivity.class.getSimpleName();
-
-    private TodoDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_init);
 
-        dbHelper = new TodoDbHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        Button initButton = (Button) findViewById(R.id.initButton);
+        initButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FormDialog().show(getSupportFragmentManager(), "FormDialog");
+            }
+        });
+    }
 
-        ContentValues values = new ContentValues();
-        values.put(TodoContract.TodoEntry.COLUMN_TASK, "Eat an Apple");
-        values.put(TodoContract.TodoEntry.COLUMN_CHECKED, 0);
-
-        db.insert(TodoContract.TodoEntry.TABLE_NAME, null, values);
+    @Override
+    public void onTimeSet(int hourOfDay, int minute) {
+        Intent intent = new Intent(InitActivity.this, ListInputActivity.class);
+        intent.putExtra(HOUR_OF_DAY, hourOfDay);
+        intent.putExtra(MINUTE, minute);
+        startActivity(intent);
     }
 }
