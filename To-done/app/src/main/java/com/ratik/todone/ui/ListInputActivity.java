@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.pixplicity.easyprefs.library.Prefs;
+import com.ratik.todone.TodoProvider;
 import com.ratik.todone.util.Constants;
 import com.ratik.todone.adapter.ItemsToBeAddedAdapter;
 import com.ratik.todone.R;
@@ -74,7 +75,8 @@ public class ListInputActivity extends AppCompatActivity {
         for(String todo : todos) {
             values.put(TodoEntry.COLUMN_TASK, todo);
             values.put(TodoEntry.COLUMN_CHECKED, 0);
-            db.insert(TodoEntry.TABLE_NAME, null, values);
+            // save
+            getContentResolver().insert(TodoProvider.CONTENT_URI, values);
         }
 
         // Update preference
