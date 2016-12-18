@@ -25,7 +25,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ratik.todone.ui.InitActivity" />
         </activity>
-        <activity android:name=".ui.MainActivity"></activity>
+        <activity android:name=".ui.MainActivity" />
+
+        <provider
+            android:name=".TodoProvider"
+            android:authorities="com.ratik.todone.provider"
+            android:exported="false" />
     </application>
 
 </manifest>
