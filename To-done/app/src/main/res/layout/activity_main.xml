@@ -7,4 +7,14 @@
     android:background="@color/colorPrimary"
     tools:context="com.ratik.todone.ui.MainActivity">
 
+    <ListView
+        android:id="@+id/todoListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="22dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="40dp" />
+
 </RelativeLayout>
