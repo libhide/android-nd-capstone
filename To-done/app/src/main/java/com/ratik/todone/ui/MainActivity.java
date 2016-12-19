@@ -6,6 +6,8 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -25,10 +27,14 @@ public class MainActivity extends AppCompatActivity
     private TodoAdapter adapter;
     private ListView todoListView;
 
+    private CoordinatorLayout mainLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainLayout = (CoordinatorLayout) findViewById(R.id.mainLayout);
 
         todoListView = (ListView) findViewById(R.id.todoListView);
         adapter = new TodoAdapter(this, null);
@@ -50,6 +56,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+        if (!Prefs.getBoolean(Constants.LIST_EXISTS, false)) {
+            Snackbar.make(mainLayout, "List created. Now, get to work!",
+                    Snackbar.LENGTH_LONG).show();
+            // Update preference
+            Prefs.putBoolean(Constants.LIST_EXISTS, true);
+        }
     }
 
     // Creates a new loader after the initLoader() call

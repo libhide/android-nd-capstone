@@ -13,13 +13,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.pixplicity.easyprefs.library.Prefs;
-import com.ratik.todone.provider.TodoProvider;
-import com.ratik.todone.util.Constants;
-import com.ratik.todone.adapter.ItemsToBeAddedAdapter;
 import com.ratik.todone.R;
+import com.ratik.todone.adapter.ItemsToBeAddedAdapter;
 import com.ratik.todone.provider.TodoContract.TodoEntry;
 import com.ratik.todone.provider.TodoDbHelper;
+import com.ratik.todone.provider.TodoProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,9 +77,6 @@ public class ListInputActivity extends AppCompatActivity {
             // save
             getContentResolver().insert(TodoProvider.CONTENT_URI, values);
         }
-
-        // Update preference
-        Prefs.putBoolean(Constants.LIST_EXISTS, true);
 
         // Start MainActivity
         Intent intent = new Intent(ListInputActivity.this, MainActivity.class);

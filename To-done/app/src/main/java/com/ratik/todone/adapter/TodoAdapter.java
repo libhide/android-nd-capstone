@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,8 +41,6 @@ public class TodoAdapter extends CursorAdapter {
         // get data
         int index = cursor.getInt(cursor.getColumnIndex(
                 TodoContract.TodoEntry.COLUMN_ID));
-
-        Log.d(TAG, "" + index);
 
         String task = cursor.getString(cursor.getColumnIndex(
                 TodoContract.TodoEntry.COLUMN_TASK));
