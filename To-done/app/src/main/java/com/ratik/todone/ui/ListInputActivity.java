@@ -72,8 +72,9 @@ public class ListInputActivity extends AppCompatActivity {
 
     private void saveTodos() {
         ContentValues values = new ContentValues();
-        for(String todo : todos) {
-            values.put(TodoEntry.COLUMN_TASK, todo);
+        for(int i = 0; i < todos.size(); i++) {
+            values.put(TodoEntry.COLUMN_ID, i);
+            values.put(TodoEntry.COLUMN_TASK, todos.get(i));
             values.put(TodoEntry.COLUMN_CHECKED, 0);
             // save
             getContentResolver().insert(TodoProvider.CONTENT_URI, values);
@@ -84,6 +85,7 @@ public class ListInputActivity extends AppCompatActivity {
 
         // Start MainActivity
         Intent intent = new Intent(ListInputActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 

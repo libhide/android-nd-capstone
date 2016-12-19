@@ -25,12 +25,14 @@ public class TodoDbHelper extends SQLiteOpenHelper {
             Required query -
             CREATE TABLE <name> (
                 _id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER,
                 task TEXT NOT NULL,
                 checked INTEGER DEFAULT 0
             );
          */
         String createQuery = "CREATE TABLE " + TABLE_NAME + " ( " +
                 TodoContract.TodoEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                TodoContract.TodoEntry.COLUMN_ID + " INTEGER NOT NULL, " +
                 TodoContract.TodoEntry.COLUMN_TASK + " TEXT NOT NULL, " +
                 TodoContract.TodoEntry.COLUMN_CHECKED + " INTEGER DEFAULT 0);";
 

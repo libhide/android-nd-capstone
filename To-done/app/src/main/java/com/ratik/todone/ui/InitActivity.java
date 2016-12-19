@@ -22,7 +22,9 @@ public class InitActivity extends AppCompatActivity implements OnTimeSetListener
         // If a list already exists
         // Transfer UI to MainActivity
         if (Prefs.getBoolean(Constants.LIST_EXISTS, false)) {
-            startActivity(new Intent(this, MainActivity.class));
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             overridePendingTransition(0, 0);
         }
 

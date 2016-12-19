@@ -11,10 +11,21 @@
         android:id="@+id/todoListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="23dp"
         android:layout_marginRight="22dp"
+        android:layout_marginTop="20dp"
         android:divider="@android:color/transparent"
         android:dividerHeight="40dp" />
+
+    <Button
+        android:id="@+id/clearButton"
+        style="@style/TodoneButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/todoListView"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Clear Database" />
 
 </RelativeLayout>

@@ -184,6 +184,7 @@ public class TodoProvider extends ContentProvider {
     private void checkColumns(String[] projection) {
         String[] available = {
                 TodoContract.TodoEntry._ID,
+                TodoContract.TodoEntry.COLUMN_ID,
                 TodoContract.TodoEntry.COLUMN_TASK,
                 TodoContract.TodoEntry.COLUMN_CHECKED
         };
