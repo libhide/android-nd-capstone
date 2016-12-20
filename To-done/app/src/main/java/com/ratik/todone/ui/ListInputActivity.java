@@ -2,7 +2,6 @@ package com.ratik.todone.ui;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +15,8 @@ import android.widget.TextView;
 import com.ratik.todone.R;
 import com.ratik.todone.adapter.ItemsToBeAddedAdapter;
 import com.ratik.todone.provider.TodoContract.TodoEntry;
-import com.ratik.todone.provider.TodoDbHelper;
 import com.ratik.todone.provider.TodoProvider;
+import com.ratik.todone.util.AlarmHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,16 +28,17 @@ public class ListInputActivity extends AppCompatActivity {
 
     private FloatingActionButton fab;
 
-    private TodoDbHelper dbHelper;
-    private SQLiteDatabase db;
+    private int hourOfDay;
+    private int minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_input);
 
-        dbHelper = new TodoDbHelper(this);
-        db = dbHelper.getWritableDatabase();
+        Intent intent = getIntent();
+        hourOfDay = intent.getIntExtra(InitActivity.HOUR_OF_DAY, 0);
+        minute = intent.getIntExtra(InitActivity.MINUTE, 0);
 
         final EditText itemInputEditText = (EditText) findViewById(R.id.itemInputEditText);
         itemInputEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -76,6 +76,8 @@ public class ListInputActivity extends AppCompatActivity {
             values.put(TodoEntry.COLUMN_CHECKED, 0);
             // save
             getContentResolver().insert(TodoProvider.CONTENT_URI, values);
+            // time stuff
+            AlarmHelper.setTimeOverAlarm(this, hourOfDay, minute);
         }
 
         // Start MainActivity

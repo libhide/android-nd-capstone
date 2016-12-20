@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ratik.todone">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:name=".TodoneApplication"
         android:allowBackup="true"
@@ -31,6 +33,8 @@
             android:name=".provider.TodoProvider"
             android:authorities="com.ratik.todone.provider"
             android:exported="false" />
+        <receiver android:name=".receiver.TimeOverReceiver" />
+        <receiver android:name=".receiver.RebootReceiver" />
     </application>
 
 </manifest>

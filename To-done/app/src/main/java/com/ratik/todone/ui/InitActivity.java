@@ -12,8 +12,8 @@ import com.ratik.todone.R;
 
 public class InitActivity extends AppCompatActivity implements OnTimeSetListener {
 
-    private static final String HOUR_OF_DAY = "hour";
-    private static final String MINUTE = "minute";
+    public static final String HOUR_OF_DAY = "hour";
+    public static final String MINUTE = "minute";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
