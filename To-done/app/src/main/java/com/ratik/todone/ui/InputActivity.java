@@ -3,7 +3,9 @@ package com.ratik.todone.ui;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,32 +21,47 @@ import com.ratik.todone.adapter.ItemsToBeAddedAdapter;
 import com.ratik.todone.provider.TodoContract.TodoEntry;
 import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.util.AlarmHelper;
+import com.ratik.todone.util.Constants;
 import com.ratik.todone.util.NotificationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListInputActivity extends AppCompatActivity {
+public class InputActivity extends AppCompatActivity implements OnTimeSetListener {
 
-    public static final String TAG = ListInputActivity.class.getSimpleName();
+    public static final String TAG = InputActivity.class.getSimpleName();
+
+    public static final String HOUR_OF_DAY = "hour";
+    public static final String MINUTE = "minute";
     public static final String TOTAL_TODOS = "total_todos";
 
     private List<String> todos;
     private ItemsToBeAddedAdapter adapter;
 
     private FloatingActionButton fab;
+    private CoordinatorLayout inputLayout;
 
     private int hourOfDay;
     private int minute;
 
+    private Snackbar helperSnack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // If a list already exists
+        // Transfer UI to MainActivity
+        if (Prefs.getBoolean(Constants.LIST_EXISTS, false)) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            overridePendingTransition(0, 0);
+        }
+
         setContentView(R.layout.activity_list_input);
 
-        Intent intent = getIntent();
-        hourOfDay = intent.getIntExtra(InitActivity.HOUR_OF_DAY, 0);
-        minute = intent.getIntExtra(InitActivity.MINUTE, 0);
+        inputLayout = (CoordinatorLayout) findViewById(R.id.inputLayout);
 
         final EditText itemInputEditText = (EditText) findViewById(R.id.itemInputEditText);
         itemInputEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -58,7 +75,7 @@ public class ListInputActivity extends AppCompatActivity {
                         itemInputEditText.setText("");
                         handled = true;
                     } else {
-                        Toast.makeText(ListInputActivity.this,
+                        Toast.makeText(InputActivity.this,
                                 "No blanks allowed ;)", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -75,7 +92,11 @@ public class ListInputActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveTodos();
+                helperSnack = Snackbar.make(inputLayout,
+                        "Set the time duration for the todos you entered.",
+                        Snackbar.LENGTH_INDEFINITE);
+                helperSnack.show();
+                new FormDialog().show(getSupportFragmentManager(), "FormDialog");
             }
         });
     }
@@ -101,7 +122,7 @@ public class ListInputActivity extends AppCompatActivity {
         NotificationHelper.pushNotification(this, todos.size());
 
         // Start MainActivity
-        Intent intent = new Intent(ListInputActivity.this, MainActivity.class);
+        Intent intent = new Intent(InputActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
@@ -115,5 +136,15 @@ public class ListInputActivity extends AppCompatActivity {
         if (todos.size() >= 3) {
             fab.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onTimeSet(int hourOfDay, int minute) {
+        // dismiss helper
+        helperSnack.dismiss();
+        // save
+        this.hourOfDay = hourOfDay;
+        this.minute = minute;
+        saveTodos();
     }
 }

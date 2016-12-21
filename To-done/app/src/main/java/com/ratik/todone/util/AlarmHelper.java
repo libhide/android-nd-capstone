@@ -7,7 +7,7 @@ import android.content.Intent;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.receiver.TimeOverReceiver;
-import com.ratik.todone.ui.InitActivity;
+import com.ratik.todone.ui.InputActivity;
 
 import java.util.Calendar;
 
@@ -35,7 +35,7 @@ public class AlarmHelper {
 
         // save hour and minute
         // for later use
-        Prefs.putInt(InitActivity.HOUR_OF_DAY, hour);
-        Prefs.putInt(InitActivity.MINUTE, minute);
+        Prefs.putInt(InputActivity.HOUR_OF_DAY, hour);
+        Prefs.putInt(InputActivity.MINUTE, minute);
     }
 }

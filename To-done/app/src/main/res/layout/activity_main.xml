@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:fitsSystemWindows="true"
-    tools:context="com.ratik.todone.ui.ListInputActivity">
+    tools:context="com.ratik.todone.ui.InputActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

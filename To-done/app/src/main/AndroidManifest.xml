@@ -11,21 +11,12 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.InitActivity">
+        <activity android:name=".ui.InputActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.ListInputActivity"
-            android:label="@string/title_activity_list_input"
-            android:parentActivityName=".ui.InitActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ratik.todone.ui.InitActivity" />
         </activity>
         <activity android:name=".ui.MainActivity" />
 

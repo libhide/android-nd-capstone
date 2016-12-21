@@ -13,7 +13,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.pixplicity.easyprefs.library.Prefs;
-import com.ratik.todone.ui.ListInputActivity;
+import com.ratik.todone.ui.InputActivity;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -225,7 +225,7 @@ public class TodoProvider extends ContentProvider {
     }
 
     public static int getNumberOfUncheckedTasks(Context context) {
-        int totalTasks = Prefs.getInt(ListInputActivity.TOTAL_TODOS, 0);
+        int totalTasks = Prefs.getInt(InputActivity.TOTAL_TODOS, 0);
         int checked = getNumberOfCheckedTasks(context);
         return totalTasks - checked;
     }

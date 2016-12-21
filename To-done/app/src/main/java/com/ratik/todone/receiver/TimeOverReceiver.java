@@ -8,8 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.provider.TodoDbHelper;
 import com.ratik.todone.provider.TodoProvider;
-import com.ratik.todone.ui.InitActivity;
-import com.ratik.todone.ui.ListInputActivity;
+import com.ratik.todone.ui.InputActivity;
 import com.ratik.todone.util.Constants;
 import com.ratik.todone.util.NotificationHelper;
 
@@ -43,8 +42,8 @@ public class TimeOverReceiver extends BroadcastReceiver {
         helper.deleteDb(db);
 
         // remove shared preferences
-        Prefs.remove(InitActivity.HOUR_OF_DAY);
-        Prefs.remove(InitActivity.MINUTE);
-        Prefs.remove(ListInputActivity.TOTAL_TODOS);
+        Prefs.remove(InputActivity.HOUR_OF_DAY);
+        Prefs.remove(InputActivity.MINUTE);
+        Prefs.remove(InputActivity.TOTAL_TODOS);
     }
 }
