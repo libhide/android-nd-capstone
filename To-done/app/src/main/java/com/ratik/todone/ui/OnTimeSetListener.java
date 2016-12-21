@@ -5,5 +5,5 @@ package com.ratik.todone.ui;
  */
 
 public interface OnTimeSetListener {
-    public abstract void onTimeSet(int hourOfDay, int minute);
+    void onTimeSet(int hourOfDay, int minute);
 }

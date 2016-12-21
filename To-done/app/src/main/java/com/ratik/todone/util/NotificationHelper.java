@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.ratik.todone.R;
 import com.ratik.todone.provider.TodoContract;
@@ -34,6 +35,9 @@ public class NotificationHelper {
         builder.setOngoing(true)
                 .setContentText("Get to work!")
                 .setSmallIcon(R.drawable.ic_stat_todone)
+                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
         List<String> todos = getTodos(context);
@@ -71,6 +75,7 @@ public class NotificationHelper {
         builder.setContentTitle("All tasks completed! Good job!")
                 .setContentText("You should be proud of yourself, well done!")
                 .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setColor(ContextCompat.getColor(context, R.color.colorSuccess))
                 .setLights(Color.GREEN, 500, 2000)
                 .setSmallIcon(R.drawable.ic_stat_success);
 
@@ -84,6 +89,7 @@ public class NotificationHelper {
         builder.setContentTitle("You failed to complete the tasks in time :(")
                 .setContentText("Don't worry, try harder next time!")
                 .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setColor(ContextCompat.getColor(context, R.color.colorFailure))
                 .setLights(Color.RED, 500, 2000)
                 .setSmallIcon(R.drawable.ic_stat_fail);
 

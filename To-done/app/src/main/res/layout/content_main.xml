@@ -6,7 +6,6 @@
     android:background="@color/colorPrimary">
 
     <FrameLayout
-        android:id="@+id/todoView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -22,18 +21,6 @@
             tools:layout_height="200dp" />
     </FrameLayout>
 
-    <Button
-        android:id="@+id/clearButton"
-        style="@style/TodoneButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/todoListView"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="60dp"
-        android:text="Clear Database"
-        android:visibility="invisible" />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,6 +30,7 @@
         android:fontFamily="sans-serif-light"
         android:text="> 2 HRS LEFT FOR THESE TASKS"
         android:textColor="#98ffffff"
-        android:textSize="12dp" />
+        android:textSize="12dp"
+        android:visibility="invisible" />
 
 </RelativeLayout>

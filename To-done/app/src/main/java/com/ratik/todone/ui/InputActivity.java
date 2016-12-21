@@ -27,7 +27,8 @@ import com.ratik.todone.util.NotificationHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InputActivity extends AppCompatActivity implements OnTimeSetListener {
+public class InputActivity extends AppCompatActivity implements
+        OnTimeSetListener, OnTimeSetCancel {
 
     public static final String TAG = InputActivity.class.getSimpleName();
 
@@ -93,7 +94,7 @@ public class InputActivity extends AppCompatActivity implements OnTimeSetListene
             @Override
             public void onClick(View view) {
                 helperSnack = Snackbar.make(inputLayout,
-                        "Set the time duration for the todos you entered.",
+                        "Set the time duration for the todos you entered",
                         Snackbar.LENGTH_INDEFINITE);
                 helperSnack.show();
                 new FormDialog().show(getSupportFragmentManager(), "FormDialog");
@@ -107,7 +108,7 @@ public class InputActivity extends AppCompatActivity implements OnTimeSetListene
 
         // db stuff
         ContentValues values = new ContentValues();
-        for(int i = 0; i < todos.size(); i++) {
+        for (int i = 0; i < todos.size(); i++) {
             values.put(TodoEntry.COLUMN_ID, i);
             values.put(TodoEntry.COLUMN_TASK, todos.get(i));
             values.put(TodoEntry.COLUMN_CHECKED, 0);
@@ -146,5 +147,10 @@ public class InputActivity extends AppCompatActivity implements OnTimeSetListene
         this.hourOfDay = hourOfDay;
         this.minute = minute;
         saveTodos();
+    }
+
+    @Override
+    public void onTimeSetCancel() {
+        helperSnack.dismiss();
     }
 }

@@ -4,20 +4,16 @@ import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
 import com.ratik.todone.adapter.TodoAdapter;
 import com.ratik.todone.provider.TodoContract;
-import com.ratik.todone.provider.TodoDbHelper;
 import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.util.Constants;
 
@@ -40,22 +36,6 @@ public class MainActivity extends AppCompatActivity
         adapter = new TodoAdapter(this, null);
         todoListView.setAdapter(adapter);
         getLoaderManager().initLoader(0, null, this);
-
-        Button clearButton = (Button) findViewById(R.id.clearButton);
-        clearButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // update preference
-                Prefs.putBoolean(Constants.LIST_EXISTS, false);
-                TodoDbHelper helper = new TodoDbHelper(MainActivity.this);
-                SQLiteDatabase db = helper.getWritableDatabase();
-                // delete everything
-                helper.deleteDb(db);
-                // finish everything
-                System.exit(0);
-            }
-        });
-
 
         if (!Prefs.getBoolean(Constants.LIST_EXISTS, false)) {
             Snackbar.make(mainLayout, "List created. Now, get to work!",

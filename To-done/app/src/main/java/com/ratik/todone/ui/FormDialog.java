@@ -3,6 +3,7 @@ package com.ratik.todone.ui;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -18,6 +19,7 @@ import java.util.Calendar;
 public class FormDialog extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     private OnTimeSetListener timeSetListener;
+    private OnTimeSetCancel timeSetCancel;
 
     // Make sure the parent activity implements
     // OnTimeSetListener
@@ -26,6 +28,7 @@ public class FormDialog extends DialogFragment implements TimePickerDialog.OnTim
         super.onAttach(context);
         try {
             this.timeSetListener = (OnTimeSetListener) context;
+            this.timeSetCancel = (OnTimeSetCancel) context;
         } catch (final ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnTimeSetListener");
@@ -42,6 +45,11 @@ public class FormDialog extends DialogFragment implements TimePickerDialog.OnTim
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(getActivity(), this, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        timeSetCancel.onTimeSetCancel();
     }
 
     @Override
