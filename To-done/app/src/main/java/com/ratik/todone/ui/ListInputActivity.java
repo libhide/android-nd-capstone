@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
@@ -51,9 +52,15 @@ public class ListInputActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    addItem(v.getText().toString());
-                    itemInputEditText.setText("");
-                    handled = true;
+                    String item = v.getText().toString();
+                    if (!item.isEmpty()) {
+                        addItem(item);
+                        itemInputEditText.setText("");
+                        handled = true;
+                    } else {
+                        Toast.makeText(ListInputActivity.this,
+                                "No blanks allowed ;)", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return handled;
             }
