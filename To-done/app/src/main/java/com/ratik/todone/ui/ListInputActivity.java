@@ -12,16 +12,21 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
 import com.ratik.todone.adapter.ItemsToBeAddedAdapter;
 import com.ratik.todone.provider.TodoContract.TodoEntry;
 import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.util.AlarmHelper;
+import com.ratik.todone.util.NotificationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListInputActivity extends AppCompatActivity {
+
+    public static final String TAG = ListInputActivity.class.getSimpleName();
+    public static final String TOTAL_TODOS = "total_todos";
 
     private List<String> todos;
     private ItemsToBeAddedAdapter adapter;
@@ -75,10 +80,15 @@ public class ListInputActivity extends AppCompatActivity {
             values.put(TodoEntry.COLUMN_TASK, todos.get(i));
             values.put(TodoEntry.COLUMN_CHECKED, 0);
             // save
+            Prefs.putInt(TOTAL_TODOS, todos.size());
             getContentResolver().insert(TodoProvider.CONTENT_URI, values);
-            // time stuff
-            AlarmHelper.setTimeOverAlarm(this, hourOfDay, minute);
         }
+
+        // alarm stuff
+        AlarmHelper.setTimeOverAlarm(this, hourOfDay, minute);
+
+        // notification stuff
+        NotificationHelper.pushNotification(this, todos.size());
 
         // Start MainActivity
         Intent intent = new Intent(ListInputActivity.this, MainActivity.class);

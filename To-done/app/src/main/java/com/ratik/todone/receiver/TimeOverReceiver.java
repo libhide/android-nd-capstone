@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.provider.TodoDbHelper;
+import com.ratik.todone.ui.InitActivity;
 import com.ratik.todone.util.Constants;
 
 /**
@@ -23,5 +24,7 @@ public class TimeOverReceiver extends BroadcastReceiver {
         SQLiteDatabase db = helper.getWritableDatabase();
         // delete everything
         helper.deleteDb(db);
+        Prefs.remove(InitActivity.HOUR_OF_DAY);
+        Prefs.remove(InitActivity.MINUTE);
     }
 }
