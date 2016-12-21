@@ -12,11 +12,9 @@ import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
 import com.ratik.todone.provider.TodoContract;
 import com.ratik.todone.provider.TodoProvider;
-import com.ratik.todone.ui.ListInputActivity;
 import com.ratik.todone.util.NotificationHelper;
 
 import static com.ratik.todone.provider.TodoContract.TodoEntry.COLUMN_CHECKED;
@@ -91,7 +89,8 @@ public class TodoAdapter extends CursorAdapter {
                 );
 
                 // notification stuff
-                NotificationHelper.pushNotification(context, getNumberOfUncheckedTasks());
+                NotificationHelper.pushNotification(context,
+                        TodoProvider.getNumberOfUncheckedTasks(context));
             }
         });
 
@@ -116,7 +115,8 @@ public class TodoAdapter extends CursorAdapter {
                 );
 
                 // notification stuff
-                NotificationHelper.pushNotification(context, getNumberOfUncheckedTasks());
+                NotificationHelper.pushNotification(context,
+                        TodoProvider.getNumberOfUncheckedTasks(context));
             }
         });
     }
@@ -124,30 +124,5 @@ public class TodoAdapter extends CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup view) {
         return inflater.inflate(R.layout.item_todo, view, false);
-    }
-
-    private int getNumberOfCheckedTasks() {
-        String[] projection = {
-                TodoContract.TodoEntry.COLUMN_CHECKED
-        };
-
-        String selection = "checked=1";
-
-        Cursor cursor = context.getContentResolver().query(
-                TodoProvider.CONTENT_URI,
-                projection,
-                selection,
-                null,
-                null
-        );
-        if (cursor != null) {
-            return cursor.getCount();
-        }
-        return 0;
-    }
-
-    private int getNumberOfUncheckedTasks() {
-        int totalTasks = Prefs.getInt(ListInputActivity.TOTAL_TODOS, 0);
-        return totalTasks - getNumberOfCheckedTasks();
     }
 }

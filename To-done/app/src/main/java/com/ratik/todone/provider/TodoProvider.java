@@ -3,6 +3,7 @@ package com.ratik.todone.provider;
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -10,6 +11,9 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import com.pixplicity.easyprefs.library.Prefs;
+import com.ratik.todone.ui.ListInputActivity;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -197,5 +201,30 @@ public class TodoProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown columns in projection");
             }
         }
+    }
+
+    public static int getNumberOfCheckedTasks(Context context) {
+        String[] projection = {
+                TodoContract.TodoEntry.COLUMN_CHECKED
+        };
+
+        String selection = "checked=1";
+
+        Cursor cursor = context.getContentResolver().query(
+                TodoProvider.CONTENT_URI,
+                projection,
+                selection,
+                null,
+                null
+        );
+        if (cursor != null) {
+            return cursor.getCount();
+        }
+        return 0;
+    }
+
+    public static int getNumberOfUncheckedTasks(Context context) {
+        int totalTasks = Prefs.getInt(ListInputActivity.TOTAL_TODOS, 0);
+        return totalTasks - getNumberOfCheckedTasks(context);
     }
 }
