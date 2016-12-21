@@ -37,7 +37,6 @@ public class NotificationHelper {
                 .setSmallIcon(R.drawable.ic_stat_todone)
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))
                 .setPriority(Notification.PRIORITY_HIGH)
-                .setAutoCancel(true)
                 .setContentIntent(pendingIntent);
 
         List<String> todos = getTodos(context);
