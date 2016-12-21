@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
 
         if (!Prefs.getBoolean(Constants.LIST_EXISTS, false)) {
             Snackbar.make(mainLayout, "List created. Now, get to work!",
-                    Snackbar.LENGTH_LONG).show();
+                    Snackbar.LENGTH_SHORT).show();
             // Update preference
             Prefs.putBoolean(Constants.LIST_EXISTS, true);
         }

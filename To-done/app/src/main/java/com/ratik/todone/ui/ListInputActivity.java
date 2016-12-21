@@ -74,13 +74,16 @@ public class ListInputActivity extends AppCompatActivity {
     }
 
     private void saveTodos() {
+        // save total number of todos
+        Prefs.putInt(TOTAL_TODOS, todos.size());
+
+        // db stuff
         ContentValues values = new ContentValues();
         for(int i = 0; i < todos.size(); i++) {
             values.put(TodoEntry.COLUMN_ID, i);
             values.put(TodoEntry.COLUMN_TASK, todos.get(i));
             values.put(TodoEntry.COLUMN_CHECKED, 0);
             // save
-            Prefs.putInt(TOTAL_TODOS, todos.size());
             getContentResolver().insert(TodoProvider.CONTENT_URI, values);
         }
 

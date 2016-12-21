@@ -220,6 +220,7 @@ public class TodoProvider extends ContentProvider {
         if (cursor != null) {
             return cursor.getCount();
         }
+        cursor.close();
         return 0;
     }
 

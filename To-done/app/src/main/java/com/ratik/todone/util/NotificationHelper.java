@@ -1,13 +1,21 @@
 package com.ratik.todone.util;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 
 import com.ratik.todone.R;
+import com.ratik.todone.provider.TodoContract;
+import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.ui.MainActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ratik on 20/12/16.
@@ -27,6 +35,16 @@ public class NotificationHelper {
                 .setContentText("Finish these by 3 PM!")
                 .setSmallIcon(R.drawable.ic_stat_todone)
                 .setContentIntent(pendingIntent);
+
+        List<String> todos = getTodos(context);
+        if (todos.size() > 0) {
+            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+            inboxStyle.setBigContentTitle("Todo: ");
+            for (int i = 0; i < todos.size(); i++) {
+                inboxStyle.addLine(i + 1 + ". " + todos.get(i));
+            }
+            builder.setStyle(inboxStyle);
+        }
 
         if (numTasks == 0) {
             builder.setContentTitle("All tasks completed! Good job!");
@@ -52,7 +70,9 @@ public class NotificationHelper {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setContentTitle("All tasks completed! Good job!")
                 .setContentText("You should be proud of yourself, well done!")
-                .setSmallIcon(R.drawable.ic_stat_todone);
+                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setLights(Color.GREEN, 500, 2000)
+                .setSmallIcon(R.drawable.ic_stat_success);
 
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -61,12 +81,44 @@ public class NotificationHelper {
 
     public static void pushUnsuccessfulNotification(Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setContentTitle("You failed :(")
+        builder.setContentTitle("You failed to complete the tasks in time :(")
                 .setContentText("Don't worry, try harder next time!")
-                .setSmallIcon(R.drawable.ic_stat_todone);
+                .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setLights(Color.RED, 500, 2000)
+                .setSmallIcon(R.drawable.ic_stat_fail);
 
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(TODONE_FAILURE, builder.build());
+    }
+
+    // Helpers
+    private static List<String> getTodos(Context context) {
+        List<String> todos = new ArrayList<>();
+
+        // Query
+        String[] projection = {
+                TodoContract.TodoEntry.COLUMN_TASK
+        };
+
+        Cursor cursor = context.getContentResolver().query(
+                TodoProvider.CONTENT_URI,
+                projection,
+                "checked=0",
+                null,
+                null
+        );
+
+        assert cursor != null;
+        if (cursor.moveToFirst()) {
+            while (!cursor.isAfterLast()) {
+                String todo = cursor.getString(cursor.getColumnIndex(
+                        TodoContract.TodoEntry.COLUMN_TASK));
+                todos.add(todo);
+                cursor.moveToNext();
+            }
+        }
+        cursor.close();
+        return todos;
     }
 }

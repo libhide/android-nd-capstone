@@ -29,19 +29,20 @@ public class TimeOverReceiver extends BroadcastReceiver {
         SQLiteDatabase db = helper.getWritableDatabase();
         helper.deleteDb(db);
 
-        // remove shared preferences
-        Prefs.remove(InitActivity.HOUR_OF_DAY);
-        Prefs.remove(InitActivity.MINUTE);
-        Prefs.remove(ListInputActivity.TOTAL_TODOS);
-
         // remove notification
         NotificationHelper.removeNotification(context);
 
         // push success / fail notif
-        if (TodoProvider.getNumberOfUncheckedTasks(context) == 0) {
+        int numberOfLeftoverTasks = TodoProvider.getNumberOfUncheckedTasks(context);
+        if (numberOfLeftoverTasks == 0) {
             NotificationHelper.pushSuccessNotification(context);
         } else {
             NotificationHelper.pushUnsuccessfulNotification(context);
         }
+
+        // remove shared preferences
+        Prefs.remove(InitActivity.HOUR_OF_DAY);
+        Prefs.remove(InitActivity.MINUTE);
+        Prefs.remove(ListInputActivity.TOTAL_TODOS);
     }
 }
