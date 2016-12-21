@@ -21,14 +21,6 @@ public class TimeOverReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // update preference to help toggle the app's view
-        Prefs.putBoolean(Constants.LIST_EXISTS, false);
-
-        // delete db
-        TodoDbHelper helper = new TodoDbHelper(context);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        helper.deleteDb(db);
-
         // remove notification
         NotificationHelper.removeNotification(context);
 
@@ -39,6 +31,16 @@ public class TimeOverReceiver extends BroadcastReceiver {
         } else {
             NotificationHelper.pushUnsuccessfulNotification(context);
         }
+
+        // update preference to help toggle the app's view
+        Prefs.putBoolean(Constants.LIST_EXISTS, false);
+
+        /* CLEAR OUT STUFF */
+
+        // delete db
+        TodoDbHelper helper = new TodoDbHelper(context);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        helper.deleteDb(db);
 
         // remove shared preferences
         Prefs.remove(InitActivity.HOUR_OF_DAY);

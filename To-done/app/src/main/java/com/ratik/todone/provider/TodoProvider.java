@@ -226,6 +226,7 @@ public class TodoProvider extends ContentProvider {
 
     public static int getNumberOfUncheckedTasks(Context context) {
         int totalTasks = Prefs.getInt(ListInputActivity.TOTAL_TODOS, 0);
-        return totalTasks - getNumberOfCheckedTasks(context);
+        int checked = getNumberOfCheckedTasks(context);
+        return totalTasks - checked;
     }
 }
