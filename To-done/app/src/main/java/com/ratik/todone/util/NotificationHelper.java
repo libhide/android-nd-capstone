@@ -9,11 +9,9 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
 
-import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
 import com.ratik.todone.provider.TodoContract;
 import com.ratik.todone.provider.TodoProvider;
-import com.ratik.todone.ui.InitActivity;
 import com.ratik.todone.ui.MainActivity;
 
 import java.util.ArrayList;
@@ -34,12 +32,9 @@ public class NotificationHelper {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setOngoing(true)
+                .setContentText("Get to work!")
                 .setSmallIcon(R.drawable.ic_stat_todone)
                 .setContentIntent(pendingIntent);
-
-        int hour = Prefs.getInt(InitActivity.HOUR_OF_DAY, 9);
-        String timeString = TimeHelper.convertTo12Hour(hour);
-        builder.setContentText("Finish these by " + timeString + "!");
 
         List<String> todos = getTodos(context);
         if (todos.size() > 0) {
