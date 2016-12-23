@@ -38,4 +38,13 @@ public class AlarmHelper {
         Prefs.putInt(InputActivity.HOUR_OF_DAY, hour);
         Prefs.putInt(InputActivity.MINUTE, minute);
     }
+
+    public static void removeAlarm(Context context) {
+        AlarmManager alarmManager = (AlarmManager)
+                context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, TimeOverReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context, TIME_OVER_REQUEST, intent, 0);
+        alarmManager.cancel(pendingIntent);
+    }
 }

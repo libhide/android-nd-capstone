@@ -22,6 +22,7 @@ import com.ratik.todone.provider.TodoContract;
 import com.ratik.todone.provider.TodoDbHelper;
 import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.ui.InputActivity;
+import com.ratik.todone.util.AlarmHelper;
 import com.ratik.todone.util.Constants;
 import com.ratik.todone.util.NotificationHelper;
 
@@ -122,6 +123,9 @@ public class TodoAdapter extends CursorAdapter {
                                     Prefs.remove(InputActivity.HOUR_OF_DAY);
                                     Prefs.remove(InputActivity.MINUTE);
                                     Prefs.remove(InputActivity.TOTAL_TODOS);
+
+                                    // remove alarm for future alarm
+                                    AlarmHelper.removeAlarm(context);
 
                                     ((Activity) context).finish();
                                 }
