@@ -1,8 +1,12 @@
 package com.ratik.todone.adapter;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
@@ -12,9 +16,13 @@ import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
 import com.ratik.todone.provider.TodoContract;
+import com.ratik.todone.provider.TodoDbHelper;
 import com.ratik.todone.provider.TodoProvider;
+import com.ratik.todone.ui.InputActivity;
+import com.ratik.todone.util.Constants;
 import com.ratik.todone.util.NotificationHelper;
 
 import static com.ratik.todone.provider.TodoContract.TodoEntry.COLUMN_CHECKED;
@@ -27,11 +35,9 @@ public class TodoAdapter extends CursorAdapter {
 
     private static final String TAG = TodoAdapter.class.getSimpleName();
     private LayoutInflater inflater;
-    private Context context;
 
     public TodoAdapter(Context context, Cursor c) {
         super(context, c);
-        this.context = context;
         inflater = (LayoutInflater) context.getSystemService(
                 Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -71,7 +77,7 @@ public class TodoAdapter extends CursorAdapter {
         // mark item as done
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 // view stuff
                 todoTextView.setPaintFlags(todoTextView.getPaintFlags()
                         | Paint.STRIKE_THRU_TEXT_FLAG);
@@ -88,9 +94,66 @@ public class TodoAdapter extends CursorAdapter {
                         new String[]{String.valueOf(view.getTag())}
                 );
 
-                // notification stuff
-                NotificationHelper.pushNotification(context,
-                        TodoProvider.getNumberOfUncheckedTasks(context));
+                // check if all tasks are done
+                if (TodoProvider.getNumberOfCheckedTasks(context)
+                        == Prefs.getInt(InputActivity.TOTAL_TODOS, 0)) {
+                    // all tasks done
+                    // alert dialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("Everything Done!")
+                            .setMessage("Are you sure you're through with all the tasks?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // remove notification
+                                    NotificationHelper.removeNotification(context);
+
+                                    NotificationHelper.pushSuccessNotification(context);
+
+                                    // update preference to help toggle the app's view
+                                    Prefs.putBoolean(Constants.LIST_EXISTS, false);
+
+                                    // delete db
+                                    TodoDbHelper helper = new TodoDbHelper(context);
+                                    SQLiteDatabase db = helper.getWritableDatabase();
+                                    helper.deleteDb(db);
+
+                                    // remove shared preferences
+                                    Prefs.remove(InputActivity.HOUR_OF_DAY);
+                                    Prefs.remove(InputActivity.MINUTE);
+                                    Prefs.remove(InputActivity.TOTAL_TODOS);
+
+                                    ((Activity) context).finish();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    // db stuff
+                                    ContentValues values = new ContentValues();
+                                    values.put(COLUMN_CHECKED, 0);
+                                    context.getContentResolver().update(
+                                            TodoProvider.CONTENT_URI,
+                                            values,
+                                            TodoContract.TodoEntry.COLUMN_ID + "=?",
+                                            new String[]{String.valueOf(view.getTag())}
+                                    );
+
+                                    // view stuff
+                                    todoTextView.setPaintFlags(todoTextView.getPaintFlags()
+                                            & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                                    todoTextView.setTextColor(Color.argb(255, 255, 255, 255));
+                                    doneButton.setVisibility(View.VISIBLE);
+                                }
+                            });
+
+                    builder.create().show();
+                } else {
+                    // notification stuff
+                    NotificationHelper.pushNotification(context,
+                            TodoProvider.getNumberOfUncheckedTasks(context));
+                }
             }
         });
 

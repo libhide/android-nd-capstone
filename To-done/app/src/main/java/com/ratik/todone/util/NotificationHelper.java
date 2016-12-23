@@ -50,7 +50,7 @@ public class NotificationHelper {
         }
 
         if (numTasks == 0) {
-            builder.setContentTitle("All tasks completed! Good job!");
+            builder.setContentTitle("All tasks completed!");
             builder.setContentText("You should be proud of yourself, well done!");
         } else if (numTasks == 1) {
             builder.setContentTitle(numTasks + " task to go!");
@@ -71,7 +71,7 @@ public class NotificationHelper {
 
     public static void pushSuccessNotification(Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setContentTitle("All tasks completed! Good job!")
+        builder.setContentTitle("All tasks completed!")
                 .setContentText("You should be proud of yourself, well done!")
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setColor(ContextCompat.getColor(context, R.color.colorSuccess))
@@ -85,7 +85,7 @@ public class NotificationHelper {
 
     public static void pushUnsuccessfulNotification(Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setContentTitle("You failed to complete the tasks in time :(")
+        builder.setContentTitle("You failed :(")
                 .setContentText("Don't worry, try harder next time!")
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setColor(ContextCompat.getColor(context, R.color.colorFailure))

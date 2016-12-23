@@ -1,6 +1,7 @@
 package com.ratik.todone.ui;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -93,6 +95,7 @@ public class InputActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard();
                 helperSnack = Snackbar.make(inputLayout,
                         "Set the time duration for the todos you entered",
                         Snackbar.LENGTH_INDEFINITE);
@@ -152,5 +155,20 @@ public class InputActivity extends AppCompatActivity implements
     @Override
     public void onTimeSetCancel() {
         helperSnack.dismiss();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
+
+    private void hideKeyboard() {
+        // Check if no view has focus
+        View v = InputActivity.this.getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 }
