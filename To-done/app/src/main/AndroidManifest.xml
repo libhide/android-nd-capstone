@@ -25,10 +25,22 @@
         <provider
             android:name=".provider.TodoProvider"
             android:authorities="com.ratik.todone.provider"
-            android:exported="false" />
+            android:exported="true" />
 
         <receiver android:name=".receiver.TimeOverReceiver" />
         <receiver android:name=".receiver.RebootReceiver" />
+        <receiver android:name=".widget.WidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>

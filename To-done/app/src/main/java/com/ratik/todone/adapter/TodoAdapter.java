@@ -2,6 +2,8 @@ package com.ratik.todone.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +27,7 @@ import com.ratik.todone.ui.InputActivity;
 import com.ratik.todone.util.AlarmHelper;
 import com.ratik.todone.util.Constants;
 import com.ratik.todone.util.NotificationHelper;
+import com.ratik.todone.widget.WidgetProvider;
 
 import static com.ratik.todone.provider.TodoContract.TodoEntry.COLUMN_CHECKED;
 
@@ -158,6 +161,12 @@ public class TodoAdapter extends CursorAdapter {
                     NotificationHelper.pushNotification(context,
                             TodoProvider.getNumberOfUncheckedTasks(context));
                 }
+
+                // widget stuff
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                int appWidgetIds[] = appWidgetManager.getAppWidgetIds(
+                        new ComponentName(context, WidgetProvider.class));
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.todoListView);
             }
         });
 
@@ -184,6 +193,12 @@ public class TodoAdapter extends CursorAdapter {
                 // notification stuff
                 NotificationHelper.pushNotification(context,
                         TodoProvider.getNumberOfUncheckedTasks(context));
+
+                // widget stuff
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                int appWidgetIds[] = appWidgetManager.getAppWidgetIds(
+                        new ComponentName(context, WidgetProvider.class));
+                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.todoListView);
             }
         });
     }
