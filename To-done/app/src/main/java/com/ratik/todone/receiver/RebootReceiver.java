@@ -8,6 +8,8 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.ui.InputActivity;
 import com.ratik.todone.util.AlarmHelper;
 
+import java.util.Calendar;
+
 /**
  * Created by Ratik on 20/12/16.
  */
@@ -21,7 +23,10 @@ public class RebootReceiver extends BroadcastReceiver {
             int hourOfDay = Prefs.getInt(InputActivity.HOUR_OF_DAY, 0);
             int minute = Prefs.getInt(InputActivity.MINUTE, 0);
             // Set the alarm
-            AlarmHelper.setTimeOverAlarm(context, hourOfDay, minute);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
+            AlarmHelper.setTimeOverAlarm(context, calendar);
         }
     }
 }

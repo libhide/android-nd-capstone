@@ -23,6 +23,7 @@
 
 
     <TextView
+        android:id="@+id/timeDiffTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -30,9 +31,8 @@
         android:layout_marginLeft="20dp"
         android:fontFamily="sans-serif-light"
         android:letterSpacing="0.12"
-        android:text="> 2 HRS REMAINING FOR THESE TASKS"
+        tools:text="> 2 HRS REMAINING FOR THESE TASKS"
         android:textColor="#98ffffff"
-        android:textSize="13dp"
-        android:visibility="invisible" />
+        android:textSize="13dp" />
 
 </RelativeLayout>

@@ -5,4 +5,5 @@
     <string name="title_activity_list_input">ListInputActivity</string>
     <string name="enter_task_hint">Enter a task</string>
     <string name="content_desc_cancel_button">Cancel Button</string>
+    <string name="time_difference_text">~ %s REMAINING FOR THESE TODOS</string>
 </resources>

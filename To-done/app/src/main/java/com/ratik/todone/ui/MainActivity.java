@@ -9,6 +9,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
@@ -16,20 +17,26 @@ import com.ratik.todone.adapter.TodoAdapter;
 import com.ratik.todone.provider.TodoContract;
 import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.util.Constants;
+import com.ratik.todone.util.TimeHelper;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private TodoAdapter adapter;
     private ListView todoListView;
 
     private CoordinatorLayout mainLayout;
+    private TextView timeDifferenceTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        timeDifferenceTextView = (TextView) findViewById(R.id.timeDiffTextView);
         mainLayout = (CoordinatorLayout) findViewById(R.id.mainLayout);
 
         todoListView = (ListView) findViewById(R.id.todoListView);
@@ -43,6 +50,16 @@ public class MainActivity extends AppCompatActivity
             // Update preference
             Prefs.putBoolean(Constants.LIST_EXISTS, true);
         }
+
+        // ui things
+        int hours = Prefs.getInt(InputActivity.HOUR_OF_DAY, 0);
+        int minutes = Prefs.getInt(InputActivity.MINUTE, 0);
+        Calendar notifTime = Calendar.getInstance();
+        notifTime.set(Calendar.HOUR_OF_DAY, hours);
+        notifTime.set(Calendar.MINUTE, minutes);
+        String time = String.format(getString(R.string.time_difference_text),
+                TimeHelper.getHumanReadableTimeDifference(notifTime));
+        timeDifferenceTextView.setText(time);
     }
 
     // Creates a new loader after the initLoader() call

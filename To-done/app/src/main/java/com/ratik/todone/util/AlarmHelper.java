@@ -19,24 +19,19 @@ public class AlarmHelper {
 
     private static final int TIME_OVER_REQUEST = 0;
 
-    public static void setTimeOverAlarm(Context context, int hour, int minute) {
+    public static void setTimeOverAlarm(Context context, Calendar calendar) {
         AlarmManager alarmManager = (AlarmManager)
                 context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, TimeOverReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context, TIME_OVER_REQUEST, intent, 0);
 
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, hour);
-        c.set(Calendar.MINUTE, minute);
-
         // set the alarm
-        alarmManager.set(AlarmManager.RTC, c.getTimeInMillis(), pendingIntent);
+        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
 
-        // save hour and minute
-        // for later use
-        Prefs.putInt(InputActivity.HOUR_OF_DAY, hour);
-        Prefs.putInt(InputActivity.MINUTE, minute);
+        // save hour and minute for later use
+        Prefs.putInt(InputActivity.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+        Prefs.putInt(InputActivity.MINUTE, calendar.get(Calendar.MINUTE));
     }
 
     public static void removeAlarm(Context context) {

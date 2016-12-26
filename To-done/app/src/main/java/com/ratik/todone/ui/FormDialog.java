@@ -55,6 +55,9 @@ public class FormDialog extends DialogFragment implements TimePickerDialog.OnTim
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
-        timeSetListener.onTimeSet(hourOfDay, minute);
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        c.set(Calendar.MINUTE, minute);
+        timeSetListener.onTimeSet(c);
     }
 }

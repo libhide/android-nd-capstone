@@ -103,7 +103,7 @@ public class TodoAdapter extends CursorAdapter {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Everything Done!")
                             .setMessage("Are you sure you're through with all the tasks?")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     // remove notification
@@ -130,7 +130,7 @@ public class TodoAdapter extends CursorAdapter {
                                     ((Activity) context).finish();
                                 }
                             })
-                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();

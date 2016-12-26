@@ -27,6 +27,7 @@ import com.ratik.todone.util.Constants;
 import com.ratik.todone.util.NotificationHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class InputActivity extends AppCompatActivity implements
@@ -105,7 +106,7 @@ public class InputActivity extends AppCompatActivity implements
         });
     }
 
-    private void saveTodos() {
+    private void saveTodos(Calendar calendar) {
         // save total number of todos
         Prefs.putInt(TOTAL_TODOS, todos.size());
 
@@ -120,7 +121,7 @@ public class InputActivity extends AppCompatActivity implements
         }
 
         // alarm stuff
-        AlarmHelper.setTimeOverAlarm(this, hourOfDay, minute);
+        AlarmHelper.setTimeOverAlarm(this, calendar);
 
         // notification stuff
         NotificationHelper.pushNotification(this, todos.size());
@@ -143,13 +144,11 @@ public class InputActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onTimeSet(int hourOfDay, int minute) {
+    public void onTimeSet(Calendar c) {
         // dismiss helper
         helperSnack.dismiss();
         // save
-        this.hourOfDay = hourOfDay;
-        this.minute = minute;
-        saveTodos();
+        saveTodos(c);
     }
 
     @Override
@@ -167,7 +166,8 @@ public class InputActivity extends AppCompatActivity implements
         // Check if no view has focus
         View v = InputActivity.this.getCurrentFocus();
         if (v != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager imm = (InputMethodManager)
+                    getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
     }
