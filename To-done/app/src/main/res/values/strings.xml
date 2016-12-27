@@ -6,4 +6,5 @@
     <string name="enter_task_hint">Enter a task</string>
     <string name="content_desc_cancel_button">Cancel Button</string>
     <string name="time_difference_text">~ %s REMAINING FOR THESE TODOS</string>
+    <string name="empty_view">No todos right now. Make a list within the app!</string>
 </resources>

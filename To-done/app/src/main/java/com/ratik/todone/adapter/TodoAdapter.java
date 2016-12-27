@@ -205,6 +205,6 @@ public class TodoAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup view) {
-        return inflater.inflate(R.layout.item_todo, view, false);
+        return inflater.inflate(R.layout.todo_item, view, false);
     }
 }

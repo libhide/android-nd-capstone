@@ -4,7 +4,10 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Binder;
+import android.text.Html;
+import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -12,7 +15,6 @@ import com.ratik.todone.R;
 import com.ratik.todone.provider.TodoContract;
 import com.ratik.todone.provider.TodoProvider;
 
-import static com.ratik.todone.R.id.todoTextView;
 import static com.ratik.todone.provider.TodoContract.TodoEntry.COLUMN_CHECKED;
 
 /**
@@ -104,14 +106,23 @@ class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
 
         // Construct a remote views item based on the app widget item XML file,
         // and set the text based on the position.
-        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.item_todo);
+        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.todo_item_widget);
 
-        if (taskIsDone != 1) {
-            rv.setTextViewText(todoTextView, task);
+        // <s> stuff
+        if (taskIsDone == 1) {
+            rv.setTextViewText(R.id.todoTextView,
+                    Html.fromHtml("<s>" + task + "</s>"));
+            rv.setInt(R.id.todoTextView, "setTextColor",
+                    Color.argb(155, 255, 255, 255));
+            rv.setInt(R.id.doneButton, "setVisibility", View.INVISIBLE);
         } else {
-            return null;
+            rv.setTextViewText(R.id.todoTextView,
+                    Html.fromHtml(task));
+            rv.setInt(R.id.todoTextView, "setTextColor",
+                    Color.argb(255, 255, 255, 255));
+            rv.setInt(R.id.doneButton, "setVisibility", View.VISIBLE);
         }
-        // Return the remote views object.
+
         return rv;
     }
 
