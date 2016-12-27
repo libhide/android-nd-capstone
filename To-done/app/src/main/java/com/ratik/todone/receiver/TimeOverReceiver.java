@@ -11,6 +11,7 @@ import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.ui.InputActivity;
 import com.ratik.todone.util.Constants;
 import com.ratik.todone.util.NotificationHelper;
+import com.ratik.todone.util.WidgetHelper;
 
 /**
  * Created by Ratik on 20/12/16.
@@ -45,5 +46,8 @@ public class TimeOverReceiver extends BroadcastReceiver {
         Prefs.remove(InputActivity.HOUR_OF_DAY);
         Prefs.remove(InputActivity.MINUTE);
         Prefs.remove(InputActivity.TOTAL_TODOS);
+
+        // Update widget
+        WidgetHelper.updateWidget(context);
     }
 }

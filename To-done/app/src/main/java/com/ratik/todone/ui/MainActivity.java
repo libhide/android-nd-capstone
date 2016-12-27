@@ -18,6 +18,7 @@ import com.ratik.todone.provider.TodoContract;
 import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.util.Constants;
 import com.ratik.todone.util.TimeHelper;
+import com.ratik.todone.util.WidgetHelper;
 
 import java.util.Calendar;
 
@@ -60,6 +61,13 @@ public class MainActivity extends AppCompatActivity
         String time = String.format(getString(R.string.time_difference_text),
                 TimeHelper.getHumanReadableTimeDifference(notifTime));
         timeDifferenceTextView.setText(time);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Update widget
+        WidgetHelper.updateWidget(this);
     }
 
     // Creates a new loader after the initLoader() call
