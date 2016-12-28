@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
 import com.ratik.todone.adapter.TodoAdapter;
@@ -42,11 +44,19 @@ public class MainActivity extends AppCompatActivity
 
     private CoordinatorLayout mainLayout;
     private TextView timeDifferenceTextView;
+    private AdView adView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // AdMob
+        adView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("F10B72A932B17CB36CBBE69C25167324")
+                .build();
+        adView.loadAd(adRequest);
 
         timeDifferenceTextView = (TextView) findViewById(R.id.timeDiffTextView);
         mainLayout = (CoordinatorLayout) findViewById(R.id.mainLayout);

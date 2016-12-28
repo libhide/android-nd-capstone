@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "537292654376",
+    "firebase_url": "https://to-done-ba919.firebaseio.com",
+    "project_id": "to-done-ba919",
+    "storage_bucket": "to-done-ba919.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:537292654376:android:f7298f8f530f62c1",
+        "android_client_info": {
+          "package_name": "com.ratik.todone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "537292654376-cp2jj2pv1t7htcoephvuho305r2vhdhq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ratik.todone",
+            "certificate_hash": "A506FB215D8812105247A8DE9F77DC6960EAB545"
+          }
+        },
+        {
+          "client_id": "537292654376-avf485ch3a9gundjl0gn71v57j8utina.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKVIOa2BWiIT-2TeCAaGbG60jogmf1DPA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "537292654376-avf485ch3a9gundjl0gn71v57j8utina.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
