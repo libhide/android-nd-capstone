@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Binder;
+import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -52,6 +53,8 @@ class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
             cursor.close();
         }
 
+        String selection = "checked=0";
+
         final long identityToken = Binder.clearCallingIdentity();
         // This is done because the widget runs as a separate thread
         // when compared to the current app and hence the app's data
@@ -59,7 +62,7 @@ class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
         cursor = context.getContentResolver().query(
                 TodoProvider.CONTENT_URI,
                 projection,
-                null,
+                selection,
                 null,
                 null
         );
@@ -94,10 +97,6 @@ class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
     public RemoteViews getViewAt(int position) {
         cursor.moveToPosition(position);
 
-        // Get data
-        int index = cursor.getInt(cursor.getColumnIndex(
-                TodoContract.TodoEntry.COLUMN_ID));
-
         String task = cursor.getString(cursor.getColumnIndex(
                 TodoContract.TodoEntry.COLUMN_TASK));
 
@@ -106,7 +105,7 @@ class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
 
         // Construct a remote views item based on the app widget item XML file,
         // and set the text based on the position.
-        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.todo_item_widget);
+        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.todo_item);
 
         // <s> stuff
         if (taskIsDone == 1) {
@@ -122,6 +121,13 @@ class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory {
                     Color.argb(255, 255, 255, 255));
             rv.setInt(R.id.doneButton, "setVisibility", View.VISIBLE);
         }
+
+        // OnTouch Stuff
+        Bundle extras = new Bundle();
+        extras.putString(WidgetProvider.EXTRA_TODO_TEXT, task);
+        Intent checkIntent = new Intent();
+        checkIntent.putExtras(extras);
+        rv.setOnClickFillInIntent(R.id.doneButton, checkIntent);
 
         return rv;
     }

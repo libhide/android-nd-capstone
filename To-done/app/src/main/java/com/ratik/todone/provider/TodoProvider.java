@@ -45,6 +45,7 @@ public class TodoProvider extends ContentProvider {
             + "/todo";
 
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
     static {
         sURIMatcher.addURI(AUTHORITY, BASE_PATH, TODOS);
         sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", TODO_ID);
@@ -205,6 +206,9 @@ public class TodoProvider extends ContentProvider {
 
     public static int getNumberOfCheckedTasks(Context context) {
         String[] projection = {
+                TodoContract.TodoEntry._ID,
+                TodoContract.TodoEntry.COLUMN_ID,
+                TodoContract.TodoEntry.COLUMN_TASK,
                 TodoContract.TodoEntry.COLUMN_CHECKED
         };
 
@@ -228,5 +232,31 @@ public class TodoProvider extends ContentProvider {
         int totalTasks = Prefs.getInt(InputActivity.TOTAL_TODOS, 0);
         int checked = getNumberOfCheckedTasks(context);
         return totalTasks - checked;
+    }
+
+    public static int getColumnId(Context context, String string) {
+        String[] projection = {
+                TodoContract.TodoEntry.COLUMN_ID
+        };
+
+        String selection = "task = ?";
+        String[] selectionArgs = {""};
+        selectionArgs[0] = string;
+
+        Cursor cursor = context.getContentResolver().query(
+                TodoProvider.CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs,
+                null
+        );
+
+        int index = -1;
+        if (cursor != null && cursor.moveToFirst()) {
+            index = cursor.getInt(cursor.getColumnIndex(
+                    TodoContract.TodoEntry.COLUMN_ID));
+        }
+        cursor.close();
+        return index;
     }
 }
