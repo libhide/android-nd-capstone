@@ -25,6 +25,7 @@ public class WidgetProvider extends AppWidgetProvider {
 
     public static final String ACTION_CHECK = "ACTION_CHECK";
     public static final String EXTRA_TODO_TEXT = "EXTRA_TODO_TEXT";
+    public static final String EXTRA_LAST_POS = "EXTRA_LAST_POS";
 
     public static final String START_FROM_WIDGET = "fromWidget";
 
@@ -100,6 +101,7 @@ public class WidgetProvider extends AppWidgetProvider {
                 // alert dialog
                 Intent mainIntent = new Intent(context, MainActivity.class);
                 mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mainIntent.putExtra(EXTRA_LAST_POS, index);
                 mainIntent.putExtra(START_FROM_WIDGET, true);
                 context.startActivity(mainIntent);
             } else {

@@ -1,9 +1,14 @@
 package com.ratik.todone.ui;
 
+import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -15,12 +20,18 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
 import com.ratik.todone.adapter.TodoAdapter;
 import com.ratik.todone.provider.TodoContract;
+import com.ratik.todone.provider.TodoDbHelper;
 import com.ratik.todone.provider.TodoProvider;
+import com.ratik.todone.util.AlarmHelper;
 import com.ratik.todone.util.Constants;
+import com.ratik.todone.util.NotificationHelper;
 import com.ratik.todone.util.TimeHelper;
 import com.ratik.todone.util.WidgetHelper;
+import com.ratik.todone.widget.WidgetProvider;
 
 import java.util.Calendar;
+
+import static com.ratik.todone.provider.TodoContract.TodoEntry.COLUMN_CHECKED;
 
 public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -68,6 +79,72 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         // Update widget
         WidgetHelper.updateWidget(this);
+
+        // we are coming from the widget
+        // user just finished the last task (?)
+        Intent intent = getIntent();
+        if (intent.hasExtra(WidgetProvider.START_FROM_WIDGET)) {
+            // we are coming from the widget
+            // user just finished the last task (?)
+
+            final int lastIndex = intent.getIntExtra(WidgetProvider.EXTRA_LAST_POS, 0);
+
+            // alert dialog
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Everything Done!")
+                    .setMessage("Are you sure you're through with all the tasks?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // remove notification
+                            NotificationHelper.removeNotification(MainActivity.this);
+
+                            NotificationHelper.pushSuccessNotification(MainActivity.this);
+
+                            // update preference to help toggle the app's view
+                            Prefs.putBoolean(Constants.LIST_EXISTS, false);
+
+                            // delete db
+                            TodoDbHelper helper = new TodoDbHelper(MainActivity.this);
+                            SQLiteDatabase db = helper.getWritableDatabase();
+                            helper.deleteDb(db);
+
+                            // remove shared preferences
+                            Prefs.remove(InputActivity.HOUR_OF_DAY);
+                            Prefs.remove(InputActivity.MINUTE);
+                            Prefs.remove(InputActivity.TOTAL_TODOS);
+
+                            // remove alarm for future alarm
+                            AlarmHelper.removeAlarm(MainActivity.this);
+
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            // db stuff
+                            ContentValues values = new ContentValues();
+                            values.put(COLUMN_CHECKED, 0);
+                            MainActivity.this.getContentResolver().update(
+                                    TodoProvider.CONTENT_URI,
+                                    values,
+                                    TodoContract.TodoEntry.COLUMN_ID + "=?",
+                                    new String[]{String.valueOf(lastIndex)}
+                            );
+
+                            // view stuff
+                            adapter.notifyDataSetChanged();
+
+                            // Update widget
+                            WidgetHelper.updateWidget(MainActivity.this);
+
+                            finish();
+                        }
+                    });
+            builder.create().show();
+        }
     }
 
     // Creates a new loader after the initLoader() call
