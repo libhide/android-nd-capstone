@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -32,6 +33,8 @@ import com.ratik.todone.util.WidgetHelper;
 import com.ratik.todone.widget.WidgetProvider;
 
 import java.util.Calendar;
+
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 import static com.ratik.todone.provider.TodoContract.TodoEntry.COLUMN_CHECKED;
 
@@ -155,6 +158,24 @@ public class MainActivity extends AppCompatActivity
                     });
             builder.create().show();
         }
+
+        // HELP
+        if (Prefs.getBoolean(Constants.IS_FIRST_RUN, true)) {
+            new MaterialTapTargetPrompt.Builder(MainActivity.this)
+                    .setTarget(timeDifferenceTextView)
+                    .setPrimaryText("This is the time you have to finish your tasks. Make sure you finish them to avoid failure ;)")
+                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                        @Override
+                        public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                            Prefs.putBoolean(Constants.IS_FIRST_RUN, false);
+                        }
+
+                        @Override
+                        public void onHidePromptComplete() {
+                        }
+                    }).show();
+        }
+
     }
 
     // Creates a new loader after the initLoader() call

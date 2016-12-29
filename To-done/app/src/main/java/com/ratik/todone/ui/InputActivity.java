@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -30,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
+
 public class InputActivity extends AppCompatActivity implements
         OnTimeSetListener, OnTimeSetCancel {
 
@@ -44,9 +47,6 @@ public class InputActivity extends AppCompatActivity implements
 
     private FloatingActionButton fab;
     private CoordinatorLayout inputLayout;
-
-    private int hourOfDay;
-    private int minute;
 
     private Snackbar helperSnack;
 
@@ -104,6 +104,25 @@ public class InputActivity extends AppCompatActivity implements
                 new FormDialog().show(getSupportFragmentManager(), "FormDialog");
             }
         });
+
+        // input help
+        if (Prefs.getBoolean(Constants.IS_FIRST_RUN, true)) {
+            new MaterialTapTargetPrompt.Builder(this)
+                    .setTarget(itemInputEditText)
+                    .setPrimaryText("Enter your first task for the todo list!")
+                    .setSecondaryText("Try adding at least three items!")
+                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                        @Override
+                        public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+
+                        }
+
+                        @Override
+                        public void onHidePromptComplete() {
+
+                        }
+                    }).show();
+        }
     }
 
     private void saveTodos(Calendar calendar) {
@@ -139,7 +158,26 @@ public class InputActivity extends AppCompatActivity implements
         // start showing fab when
         // 3 or more items have been added
         if (todos.size() >= 3) {
-            fab.setVisibility(View.VISIBLE);
+
+            if (Prefs.getBoolean(Constants.IS_FIRST_RUN, true)) {
+                hideKeyboard();
+                fab.setVisibility(View.VISIBLE);
+                new MaterialTapTargetPrompt.Builder(this)
+                        .setTarget(fab)
+                        .setPrimaryText("Your first todo list!")
+                        .setSecondaryText("Tap the check mark to set a timer for the todo list or add a few more items if you want to.")
+                        .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                            @Override
+                            public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                            }
+
+                            @Override
+                            public void onHidePromptComplete() {
+                            }
+                        }).show();
+            } else {
+                fab.setVisibility(View.VISIBLE);
+            }
         }
     }
 
