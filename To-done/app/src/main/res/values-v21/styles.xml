@@ -1,1 +1,5 @@
-<resources></resources>
+<resources>
+    <style name="LetterSpacedTextView" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:letterSpacing">0.12</item>
+    </style>
+</resources>

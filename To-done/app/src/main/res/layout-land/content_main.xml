@@ -8,7 +8,11 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/main_list_max_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/main_list_horizontal_margin"
+        android:layout_marginRight="@dimen/main_list_horizontal_margin"
+        android:layout_marginTop="@dimen/main_list_top_margin">
 
         <ListView
             android:id="@+id/todoListView"
@@ -18,8 +22,7 @@
             android:layout_marginRight="22dp"
             android:layout_marginTop="30dp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="40dp"
-            tools:layout_height="200dp" />
+            android:dividerHeight="40dp" />
     </FrameLayout>
 
     <com.google.android.gms.ads.AdView
@@ -33,21 +36,22 @@
 
     <TextView
         android:id="@+id/timeDiffTextView"
-        style="@style/LetterSpacedTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/adView"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="20dp"
         android:fontFamily="sans-serif-light"
+        android:gravity="center"
         android:textColor="#98ffffff"
         android:textSize="14sp"
+        style="@style/LetterSpacedTextView"
         tools:text="> 2 HRS LEFT FOR THESE TASKS" />
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_centerInParent="true" />
 
 

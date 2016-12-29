@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="main_list_max_height">450dp</dimen>
+    <dimen name="main_list_horizontal_margin">150dp</dimen>
+    <dimen name="main_list_top_margin">200dp</dimen>
+    <dimen name="input_list_horizonal_margin">150dp</dimen>
+    <dimen name="input_list_top_margin">120dp</dimen>
+    <dimen name="input_list_vertical_spacer">40dp</dimen>
+</resources>

@@ -1,6 +1,5 @@
 package com.ratik.todone.ui;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,15 +17,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
 import com.ratik.todone.adapter.ItemsToBeAddedAdapter;
-import com.ratik.todone.provider.TodoContract.TodoEntry;
-import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.util.AlarmHelper;
 import com.ratik.todone.util.Constants;
-import com.ratik.todone.util.NotificationHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -131,20 +126,10 @@ public class InputActivity extends AppCompatActivity implements
         Prefs.putInt(TOTAL_TODOS, todos.size());
 
         // db stuff
-        ContentValues values = new ContentValues();
-        for (int i = 0; i < todos.size(); i++) {
-            values.put(TodoEntry.COLUMN_ID, i);
-            values.put(TodoEntry.COLUMN_TASK, todos.get(i));
-            values.put(TodoEntry.COLUMN_CHECKED, 0);
-            // save
-            getContentResolver().insert(TodoProvider.CONTENT_URI, values);
-        }
+        new InsertTask(this).execute(todos);
 
         // alarm stuff
         AlarmHelper.setTimeOverAlarm(this, calendar);
-
-        // notification stuff
-        NotificationHelper.pushNotification(this, todos.size());
 
         // Start MainActivity
         Intent intent = new Intent(InputActivity.this, MainActivity.class);
