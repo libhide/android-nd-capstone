@@ -158,24 +158,6 @@ public class MainActivity extends AppCompatActivity
                     });
             builder.create().show();
         }
-
-        // HELP
-        if (Prefs.getBoolean(Constants.IS_FIRST_RUN, true)) {
-            new MaterialTapTargetPrompt.Builder(MainActivity.this)
-                    .setTarget(timeDifferenceTextView)
-                    .setPrimaryText("This is the time you have to finish your tasks. Make sure you finish them to avoid failure ;)")
-                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
-                        @Override
-                        public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
-                            Prefs.putBoolean(Constants.IS_FIRST_RUN, false);
-                        }
-
-                        @Override
-                        public void onHidePromptComplete() {
-                        }
-                    }).show();
-        }
-
     }
 
     // Creates a new loader after the initLoader() call

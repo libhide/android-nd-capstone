@@ -20,7 +20,7 @@
         android:layout_marginTop="20dp"
         android:hint="@string/enter_task_hint"
         android:imeOptions="actionDone"
-        android:inputType="text"
+        android:inputType="textCapSentences"
         android:lines="1"
         android:maxLength="30"
         android:textColor="@android:color/white"
@@ -35,10 +35,10 @@
             android:id="@+id/itemsToAddList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
             android:layout_marginLeft="23dp"
             android:layout_marginRight="22dp"
             android:layout_marginTop="20dp"
-            android:layout_marginBottom="60dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="40dp" />
 

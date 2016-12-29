@@ -109,8 +109,8 @@ public class InputActivity extends AppCompatActivity implements
         if (Prefs.getBoolean(Constants.IS_FIRST_RUN, true)) {
             new MaterialTapTargetPrompt.Builder(this)
                     .setTarget(itemInputEditText)
-                    .setPrimaryText("Enter your first task for the todo list!")
-                    .setSecondaryText("Try adding at least three items!")
+                    .setPrimaryText("Welcome to " + getString(R.string.app_name) + "!")
+                    .setSecondaryText("Add three items to proceed.")
                     .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
                         @Override
                         public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
@@ -169,6 +169,7 @@ public class InputActivity extends AppCompatActivity implements
                         .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
                             @Override
                             public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                                Prefs.putBoolean(Constants.IS_FIRST_RUN, false);
                             }
 
                             @Override
