@@ -30,8 +30,10 @@ dependencies {
     compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
     compile 'com.google.firebase:firebase-ads:9.8.0'
     compile 'uk.co.samuelwall:material-tap-target-prompt:1.6.3'
+    compile 'com.google.firebase:firebase-core:9.8.0'
     testCompile 'junit:junit:4.12'
 }
+
 
 
 apply plugin: 'com.google.gms.google-services'

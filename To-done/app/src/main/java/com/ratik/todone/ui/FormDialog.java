@@ -10,6 +10,8 @@ import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
 import android.widget.TimePicker;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.util.Calendar;
 
 /**
@@ -20,6 +22,8 @@ public class FormDialog extends DialogFragment implements TimePickerDialog.OnTim
 
     private OnTimeSetListener timeSetListener;
     private OnTimeSetCancel timeSetCancel;
+
+    private FirebaseAnalytics firebaseAnalytics;
 
     // Make sure the parent activity implements
     // OnTimeSetListener
@@ -38,6 +42,9 @@ public class FormDialog extends DialogFragment implements TimePickerDialog.OnTim
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        // Obtain the FirebaseAnalytics instance.
+        firebaseAnalytics = FirebaseAnalytics.getInstance(getActivity());
+
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
         int minute = c.get(Calendar.MINUTE);
@@ -49,11 +56,21 @@ public class FormDialog extends DialogFragment implements TimePickerDialog.OnTim
 
     @Override
     public void onCancel(DialogInterface dialog) {
+        // Analytics
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("time_set", false);
+        firebaseAnalytics.logEvent("create_todo", bundle);
+
         timeSetCancel.onTimeSetCancel();
     }
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+        // Analytics
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("time_set", true);
+        firebaseAnalytics.logEvent("create_todo", bundle);
+
         // Do something with the time chosen by the user
         Calendar c = Calendar.getInstance();
         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
