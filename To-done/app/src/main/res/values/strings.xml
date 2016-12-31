@@ -1,11 +1,47 @@
 <resources>
+
+    <!-- General -->
     <string name="app_name">To-done</string>
-    <string name="initialize_text">Initialize new list</string>
-    <string name="form_message">Select the time duration in which you want to complete the tasks. 👉</string>
-    <string name="title_activity_list_input">ListInputActivity</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <!-- On-boarding -->
+    <string name="welcome_text">Welcome to %s!</string>
+    <string name="welcome_secondary_text">Add three items to proceed.</string>
+    <string name="list_input_help_text">Your first todo list!</string>
+    <string name="list_input_secondary_text">Tap the check mark to set a timer for the todo list or add a few more items if you want to.</string>
+
+    <!-- Input -->
     <string name="enter_task_hint">Enter a task</string>
-    <string name="content_desc_cancel_button">Cancel Button</string>
+    <string name="no_blanks_allowed_text">No blanks allowed ;)</string>
+    <string name="set_duration_prompt">Set the time duration for the todos you entered</string>
+
+    <!-- Main -->
     <string name="time_difference_text">~ %s REMAINING FOR THESE TODOS</string>
     <string name="empty_view">No todos right now. Make a list within the app!</string>
+    <string name="get_to_work_text">List created. Now, get to work!</string>
+
+    <!-- Notifications -->
+    <string name="main_notif_content_text">Get to work!</string>
+    <string name="main_notif_inbox_style_lead">"Todo: "</string>
+    <string name="one_task_text">1 task to go!</string>
+    <string name="remaining_tasks_text">%d tasks to go!</string>
+    <string name="all_done_text">All tasks completed!</string>
+    <string name="all_done_praise_text">You should be proud of yourself, well done!</string>
+    <string name="failed_text">You failed :(</string>
+    <string name="failed_praise_text">Don\'t worry, try harder next time!</string>
+
+    <!-- Dialogs -->
+    <string name="done_verification_dialog_title">Everything Done!</string>
+    <string name="done_verification_dialog_message">Are you sure you\'re through with all the tasks?</string>
+    <string name="all_done_sure_text">Are you sure you\'re through with all the tasks?</string>
+
+    <!-- Content Descriptions -->
+    <string name="content_desc_cancel_button">Cancel Button</string>
+    <string name="content_desc_done_button">Done Button</string>
+
+    <!-- AdMob -->
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+
 </resources>

@@ -33,7 +33,7 @@ public class NotificationHelper {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setOngoing(true)
-                .setContentText("Get to work!")
+                .setContentText(context.getString(R.string.main_notif_content_text))
                 .setSmallIcon(R.drawable.ic_stat_todone)
                 .setColor(ContextCompat.getColor(context, R.color.colorAccent))
                 .setPriority(Notification.PRIORITY_HIGH)
@@ -42,20 +42,17 @@ public class NotificationHelper {
         List<String> todos = getTodos(context);
         if (todos.size() > 0) {
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-            inboxStyle.setBigContentTitle("Todo: ");
+            inboxStyle.setBigContentTitle(context.getString(R.string.main_notif_inbox_style_lead));
             for (int i = 0; i < todos.size(); i++) {
                 inboxStyle.addLine(i + 1 + ". " + todos.get(i));
             }
             builder.setStyle(inboxStyle);
         }
 
-        if (numTasks == 0) {
-            builder.setContentTitle("All tasks completed!");
-            builder.setContentText("You should be proud of yourself, well done!");
-        } else if (numTasks == 1) {
-            builder.setContentTitle(numTasks + " task to go!");
+        if (numTasks == 1) {
+            builder.setContentTitle(context.getString(R.string.one_task_text));
         } else {
-            builder.setContentTitle(numTasks + " tasks to go!");
+            builder.setContentTitle(String.format(context.getString(R.string.remaining_tasks_text), numTasks));
         }
 
         NotificationManager manager =
@@ -71,8 +68,8 @@ public class NotificationHelper {
 
     public static void pushSuccessNotification(Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setContentTitle("All tasks completed!")
-                .setContentText("You should be proud of yourself, well done!")
+        builder.setContentTitle(context.getString(R.string.all_done_text))
+                .setContentText(context.getString(R.string.all_done_praise_text))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setColor(ContextCompat.getColor(context, R.color.colorSuccess))
                 .setLights(Color.GREEN, 500, 2000)
@@ -85,8 +82,8 @@ public class NotificationHelper {
 
     public static void pushUnsuccessfulNotification(Context context) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-        builder.setContentTitle("You failed :(")
-                .setContentText("Don't worry, try harder next time!")
+        builder.setContentTitle(context.getString(R.string.failed_text))
+                .setContentText(context.getString(R.string.failed_praise_text))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setColor(ContextCompat.getColor(context, R.color.colorFailure))
                 .setLights(Color.RED, 500, 2000)

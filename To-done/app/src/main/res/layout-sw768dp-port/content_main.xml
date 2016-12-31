@@ -11,15 +11,19 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/main_list_max_height"
         android:layout_centerInParent="true"
+        android:layout_marginEnd="@dimen/main_list_horizontal_margin"
         android:layout_marginLeft="@dimen/main_list_horizontal_margin"
-        android:layout_marginRight="@dimen/main_list_horizontal_margin">
+        android:layout_marginRight="@dimen/main_list_horizontal_margin"
+        android:layout_marginStart="@dimen/main_list_horizontal_margin">
 
         <ListView
             android:id="@+id/todoListView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="22dp"
             android:layout_marginLeft="23dp"
             android:layout_marginRight="22dp"
+            android:layout_marginStart="23dp"
             android:layout_marginTop="30dp"
             android:divider="@android:color/transparent"
             android:dividerHeight="40dp" />
@@ -36,16 +40,16 @@
 
     <TextView
         android:id="@+id/timeDiffTextView"
+        style="@style/LetterSpacedTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp"
         android:layout_marginBottom="50dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:textColor="#98ffffff"
         android:textSize="16sp"
-        style="@style/LetterSpacedTextView"
         tools:text="> 2 HRS LEFT FOR THESE TASKS" />
 
     <ProgressBar
@@ -53,7 +57,5 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true" />
-
-
 
 </RelativeLayout>

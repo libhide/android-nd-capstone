@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity
         getLoaderManager().initLoader(0, null, this);
 
         if (!Prefs.getBoolean(Constants.LIST_EXISTS, false)) {
-            Snackbar.make(mainLayout, "List created. Now, get to work!",
+            Snackbar.make(mainLayout, R.string.get_to_work_text,
                     Snackbar.LENGTH_SHORT).show();
             // Update preference
             Prefs.putBoolean(Constants.LIST_EXISTS, true);
@@ -106,9 +106,9 @@ public class MainActivity extends AppCompatActivity
 
             // alert dialog
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Everything Done!")
-                    .setMessage("Are you sure you're through with all the tasks?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            builder.setTitle(getString(R.string.all_done_text))
+                    .setMessage(R.string.all_done_sure_text)
+                    .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // remove notification
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity
                             finish();
                         }
                     })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

@@ -76,7 +76,7 @@ public class InputActivity extends AppCompatActivity implements
                         handled = true;
                     } else {
                         Toast.makeText(InputActivity.this,
-                                "No blanks allowed ;)", Toast.LENGTH_SHORT).show();
+                                R.string.no_blanks_allowed_text, Toast.LENGTH_SHORT).show();
                     }
                 }
                 return handled;
@@ -94,7 +94,7 @@ public class InputActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 hideKeyboard();
                 helperSnack = Snackbar.make(inputLayout,
-                        "Set the time duration for the todos you entered",
+                        R.string.set_duration_prompt,
                         Snackbar.LENGTH_INDEFINITE);
                 helperSnack.show();
                 new FormDialog().show(getSupportFragmentManager(), "FormDialog");
@@ -105,8 +105,9 @@ public class InputActivity extends AppCompatActivity implements
         if (Prefs.getBoolean(Constants.IS_FIRST_RUN, true)) {
             new MaterialTapTargetPrompt.Builder(this)
                     .setTarget(itemInputEditText)
-                    .setPrimaryText("Welcome to " + getString(R.string.app_name) + "!")
-                    .setSecondaryText("Add three items to proceed.")
+                    .setPrimaryText(String.format(getString(R.string.welcome_text),
+                            getString(R.string.app_name)))
+                    .setSecondaryText(R.string.welcome_secondary_text)
                     .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
                         @Override
                         public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
@@ -150,8 +151,8 @@ public class InputActivity extends AppCompatActivity implements
                 fab.setVisibility(View.VISIBLE);
                 new MaterialTapTargetPrompt.Builder(this)
                         .setTarget(fab)
-                        .setPrimaryText("Your first todo list!")
-                        .setSecondaryText("Tap the check mark to set a timer for the todo list or add a few more items if you want to.")
+                        .setPrimaryText(R.string.list_input_help_text)
+                        .setSecondaryText(R.string.list_input_secondary_text)
                         .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
                             @Override
                             public void onHidePrompt(MotionEvent event, boolean tappedTarget) {

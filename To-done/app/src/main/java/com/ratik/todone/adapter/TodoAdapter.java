@@ -104,9 +104,9 @@ public class TodoAdapter extends CursorAdapter {
                     // all tasks done
                     // alert dialog
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("Everything Done!")
-                            .setMessage("Are you sure you're through with all the tasks?")
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    builder.setTitle(R.string.done_verification_dialog_title)
+                            .setMessage(R.string.done_verification_dialog_message)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     // remove notification
@@ -133,7 +133,7 @@ public class TodoAdapter extends CursorAdapter {
                                     ((Activity) context).finish();
                                 }
                             })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
