@@ -16,14 +16,12 @@
         android:textSize="24sp"
         tools:text="Eat an Apple" />
 
-    <ToggleButton
+    <ImageButton
         android:id="@+id/doneButton"
         android:layout_width="14dp"
         android:layout_height="14dp"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:background="@drawable/ic_finish"
-        android:contentDescription="@string/content_desc_done_button"
-        android:textOff=""
-        android:textOn="" />
+        android:background="@drawable/ic_finish_on"
+        android:contentDescription="@string/content_desc_done_button" />
 
 </LinearLayout>

@@ -73,6 +73,8 @@ public class NotificationHelper {
                 .setDefaults(Notification.DEFAULT_VIBRATE)
                 .setColor(ContextCompat.getColor(context, R.color.colorSuccess))
                 .setLights(Color.GREEN, 500, 2000)
+                .setContentIntent(null)
+                .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_stat_success);
 
         NotificationManager manager =
@@ -85,6 +87,8 @@ public class NotificationHelper {
         builder.setContentTitle(context.getString(R.string.failed_text))
                 .setContentText(context.getString(R.string.failed_praise_text))
                 .setDefaults(Notification.DEFAULT_VIBRATE)
+                .setContentIntent(null)
+                .setAutoCancel(true)
                 .setColor(ContextCompat.getColor(context, R.color.colorFailure))
                 .setLights(Color.RED, 500, 2000)
                 .setSmallIcon(R.drawable.ic_stat_fail);

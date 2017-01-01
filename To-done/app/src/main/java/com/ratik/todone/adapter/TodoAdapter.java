@@ -15,8 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.pixplicity.easyprefs.library.Prefs;
 import com.ratik.todone.R;
@@ -49,7 +49,7 @@ public class TodoAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
         final TextView todoTextView = (TextView) view.findViewById(R.id.todoTextView);
-        final ImageButton doneButton = (ImageButton) view.findViewById(R.id.doneButton);
+        final ToggleButton doneButton = (ToggleButton) view.findViewById(R.id.doneButton);
 
         // get data
         int index = cursor.getInt(cursor.getColumnIndex(
@@ -68,13 +68,13 @@ public class TodoAdapter extends CursorAdapter {
         if (taskIsDone == 1) {
             todoTextView.setPaintFlags(todoTextView.getPaintFlags()
                     | Paint.STRIKE_THRU_TEXT_FLAG);
-            todoTextView.setTextColor(Color.argb(150, 255, 255, 255));
-            doneButton.setVisibility(View.INVISIBLE);
+            todoTextView.setTextColor(Color.argb(100, 255, 255, 255));
+            doneButton.setChecked(true);
         } else {
             todoTextView.setPaintFlags(todoTextView.getPaintFlags()
                     & (~Paint.STRIKE_THRU_TEXT_FLAG));
             todoTextView.setTextColor(Color.argb(255, 255, 255, 255));
-            doneButton.setVisibility(View.VISIBLE);
+            doneButton.setChecked(false);
         }
         doneButton.setTag(cursor.getPosition());
 
@@ -82,117 +82,112 @@ public class TodoAdapter extends CursorAdapter {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                // view stuff
-                todoTextView.setPaintFlags(todoTextView.getPaintFlags()
-                        | Paint.STRIKE_THRU_TEXT_FLAG);
-                todoTextView.setTextColor(Color.argb(150, 255, 255, 255));
-                doneButton.setVisibility(View.INVISIBLE);
+                boolean checked = ((ToggleButton) view).isChecked();
 
-                // db stuff
-                ContentValues values = new ContentValues();
-                values.put(COLUMN_CHECKED, 1);
-                context.getContentResolver().update(
-                        TodoProvider.CONTENT_URI,
-                        values,
-                        TodoContract.TodoEntry.COLUMN_ID + "=?",
-                        new String[]{String.valueOf(view.getTag())}
-                );
+                if (checked) {
+                    // check item
+                    // view stuff
+                    todoTextView.setPaintFlags(todoTextView.getPaintFlags()
+                            | Paint.STRIKE_THRU_TEXT_FLAG);
+                    todoTextView.setTextColor(Color.argb(100, 255, 255, 255));
+                    doneButton.setChecked(false);
 
-                // check if all tasks are done
-                if (TodoProvider.getNumberOfCheckedTasks(context)
-                        == Prefs.getInt(InputActivity.TOTAL_TODOS, 0)) {
-                    // all tasks done
-                    // alert dialog
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle(R.string.done_verification_dialog_title)
-                            .setMessage(R.string.done_verification_dialog_message)
-                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // remove notification
-                                    NotificationHelper.removeNotification(context);
+                    // db stuff
+                    ContentValues values = new ContentValues();
+                    values.put(COLUMN_CHECKED, 1);
+                    context.getContentResolver().update(
+                            TodoProvider.CONTENT_URI,
+                            values,
+                            TodoContract.TodoEntry.COLUMN_ID + "=?",
+                            new String[]{String.valueOf(view.getTag())}
+                    );
 
-                                    NotificationHelper.pushSuccessNotification(context);
+                    // check if all tasks are done
+                    if (TodoProvider.getNumberOfCheckedTasks(context)
+                            == Prefs.getInt(InputActivity.TOTAL_TODOS, 0)) {
+                        // all tasks done
+                        // alert dialog
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle(R.string.done_verification_dialog_title)
+                                .setMessage(R.string.done_verification_dialog_message)
+                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // remove notification
+                                        NotificationHelper.removeNotification(context);
 
-                                    // update preference to help toggle the app's view
-                                    Prefs.putBoolean(Constants.LIST_EXISTS, false);
+                                        NotificationHelper.pushSuccessNotification(context);
 
-                                    // delete db
-                                    TodoDbHelper helper = new TodoDbHelper(context);
-                                    SQLiteDatabase db = helper.getWritableDatabase();
-                                    helper.deleteDb(db);
+                                        // update preference to help toggle the app's view
+                                        Prefs.putBoolean(Constants.LIST_EXISTS, false);
 
-                                    // remove shared preferences
-                                    Prefs.remove(InputActivity.HOUR_OF_DAY);
-                                    Prefs.remove(InputActivity.MINUTE);
-                                    Prefs.remove(InputActivity.TOTAL_TODOS);
+                                        // delete db
+                                        TodoDbHelper helper = new TodoDbHelper(context);
+                                        SQLiteDatabase db = helper.getWritableDatabase();
+                                        helper.deleteDb(db);
 
-                                    // remove alarm for future alarm
-                                    AlarmHelper.removeAlarm(context);
+                                        // remove shared preferences
+                                        Prefs.remove(InputActivity.HOUR_OF_DAY);
+                                        Prefs.remove(InputActivity.MINUTE);
+                                        Prefs.remove(InputActivity.TOTAL_TODOS);
 
-                                    ((Activity) context).finish();
-                                }
-                            })
-                            .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    // db stuff
-                                    ContentValues values = new ContentValues();
-                                    values.put(COLUMN_CHECKED, 0);
-                                    context.getContentResolver().update(
-                                            TodoProvider.CONTENT_URI,
-                                            values,
-                                            TodoContract.TodoEntry.COLUMN_ID + "=?",
-                                            new String[]{String.valueOf(view.getTag())}
-                                    );
+                                        // remove alarm for future alarm
+                                        AlarmHelper.removeAlarm(context);
 
-                                    // view stuff
-                                    todoTextView.setPaintFlags(todoTextView.getPaintFlags()
-                                            & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                                    todoTextView.setTextColor(Color.argb(255, 255, 255, 255));
-                                    doneButton.setVisibility(View.VISIBLE);
-                                }
-                            });
+                                        ((Activity) context).finish();
+                                    }
+                                })
+                                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        // db stuff
+                                        ContentValues values = new ContentValues();
+                                        values.put(COLUMN_CHECKED, 0);
+                                        context.getContentResolver().update(
+                                                TodoProvider.CONTENT_URI,
+                                                values,
+                                                TodoContract.TodoEntry.COLUMN_ID + "=?",
+                                                new String[]{String.valueOf(view.getTag())}
+                                        );
 
-                    builder.create().show();
+                                        // view stuff
+                                        todoTextView.setPaintFlags(todoTextView.getPaintFlags()
+                                                & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                                        todoTextView.setTextColor(Color.argb(255, 255, 255, 255));
+                                        doneButton.setVisibility(View.VISIBLE);
+                                    }
+                                });
+
+                        builder.create().show();
+                    } else {
+                        // notification stuff
+                        NotificationHelper.pushNotification(context,
+                                TodoProvider.getNumberOfUncheckedTasks(context));
+                    }
                 } else {
+                    // uncheck item
+
+                    // view stuff
+                    todoTextView.setPaintFlags(todoTextView.getPaintFlags()
+                            & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                    todoTextView.setTextColor(Color.argb(255, 255, 255, 255));
+                    doneButton.setChecked(true);
+
+                    // db stuff
+                    ContentValues values = new ContentValues();
+                    values.put(COLUMN_CHECKED, 0);
+                    context.getContentResolver().update(
+                            TodoProvider.CONTENT_URI,
+                            values,
+                            TodoContract.TodoEntry.COLUMN_ID + "=?",
+                            new String[]{String.valueOf(view.getTag())}
+                    );
+
                     // notification stuff
                     NotificationHelper.pushNotification(context,
                             TodoProvider.getNumberOfUncheckedTasks(context));
                 }
-
-                // widget stuff
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-                int appWidgetIds[] = appWidgetManager.getAppWidgetIds(
-                        new ComponentName(context, WidgetProvider.class));
-                appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.todoListView);
-            }
-        });
-
-        // un-check item
-        todoTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // view stuff
-                todoTextView.setPaintFlags(todoTextView.getPaintFlags()
-                        & (~Paint.STRIKE_THRU_TEXT_FLAG));
-                todoTextView.setTextColor(Color.argb(255, 255, 255, 255));
-                doneButton.setVisibility(View.VISIBLE);
-
-                // db stuff
-                ContentValues values = new ContentValues();
-                values.put(COLUMN_CHECKED, 0);
-                context.getContentResolver().update(
-                        TodoProvider.CONTENT_URI,
-                        values,
-                        TodoContract.TodoEntry.COLUMN_ID + "=?",
-                        new String[]{String.valueOf(view.getTag())}
-                );
-
-                // notification stuff
-                NotificationHelper.pushNotification(context,
-                        TodoProvider.getNumberOfUncheckedTasks(context));
 
                 // widget stuff
                 AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
