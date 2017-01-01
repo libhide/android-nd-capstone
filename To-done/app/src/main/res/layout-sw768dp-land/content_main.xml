@@ -29,6 +29,14 @@
             android:dividerHeight="40dp" />
     </FrameLayout>
 
+    <Button
+        android:id="@+id/addMoreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/todoListContainer"
+        android:text="@string/add_more_button_text"
+        style="@style/AddMoreBorderLessButton" />
+
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="wrap_content"

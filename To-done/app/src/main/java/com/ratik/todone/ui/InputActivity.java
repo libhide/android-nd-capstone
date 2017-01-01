@@ -46,13 +46,18 @@ public class InputActivity extends AppCompatActivity implements
 
     private Snackbar helperSnack;
 
+    private boolean fromMain;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // check if returning from MainActivity
+        fromMain = getIntent().getBooleanExtra(MainActivity.FROM_MAIN, false);
+
         // If a list already exists
         // Transfer UI to MainActivity
-        if (Prefs.getBoolean(Constants.LIST_EXISTS, false)) {
+        if (Prefs.getBoolean(Constants.LIST_EXISTS, false) && !fromMain) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -119,13 +124,13 @@ public class InputActivity extends AppCompatActivity implements
 
                         }
                     }).show();
+        } else {
+            itemInputEditText.requestFocus();
+            showKeyboard();
         }
     }
 
     private void saveTodos(Calendar calendar) {
-        // save total number of todos
-        Prefs.putInt(TOTAL_TODOS, todos.size());
-
         // db stuff
         new InsertTask(this).execute(todos);
 
@@ -142,29 +147,33 @@ public class InputActivity extends AppCompatActivity implements
         todos.add(s);
         adapter.notifyDataSetChanged();
 
-        // start showing fab when
-        // 3 or more items have been added
-        if (todos.size() >= 3) {
+        if (fromMain) {
+            fab.setVisibility(View.VISIBLE);
+        } else {
+            // start showing fab when
+            // 3 or more items have been added
+            if (todos.size() >= 3) {
 
-            if (Prefs.getBoolean(Constants.IS_FIRST_RUN, true)) {
-                hideKeyboard();
-                fab.setVisibility(View.VISIBLE);
-                new MaterialTapTargetPrompt.Builder(this)
-                        .setTarget(fab)
-                        .setPrimaryText(R.string.list_input_help_text)
-                        .setSecondaryText(R.string.list_input_secondary_text)
-                        .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
-                            @Override
-                            public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
-                                Prefs.putBoolean(Constants.IS_FIRST_RUN, false);
-                            }
+                if (Prefs.getBoolean(Constants.IS_FIRST_RUN, true)) {
+                    hideKeyboard();
+                    fab.setVisibility(View.VISIBLE);
+                    new MaterialTapTargetPrompt.Builder(this)
+                            .setTarget(fab)
+                            .setPrimaryText(R.string.list_input_help_text)
+                            .setSecondaryText(R.string.list_input_secondary_text)
+                            .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                                @Override
+                                public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                                    Prefs.putBoolean(Constants.IS_FIRST_RUN, false);
+                                }
 
-                            @Override
-                            public void onHidePromptComplete() {
-                            }
-                        }).show();
-            } else {
-                fab.setVisibility(View.VISIBLE);
+                                @Override
+                                public void onHidePromptComplete() {
+                                }
+                            }).show();
+                } else {
+                    fab.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -188,6 +197,7 @@ public class InputActivity extends AppCompatActivity implements
         finish();
     }
 
+    // Helpers
     private void hideKeyboard() {
         // Check if no view has focus
         View v = InputActivity.this.getCurrentFocus();
@@ -196,5 +206,13 @@ public class InputActivity extends AppCompatActivity implements
                     getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
         }
+    }
+
+    private void showKeyboard() {
+        // Get view with focus
+        View v = InputActivity.this.getCurrentFocus();
+        InputMethodManager imm = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
     }
 }

@@ -7,6 +7,7 @@
     android:background="@color/colorPrimary">
 
     <FrameLayout
+        android:id="@+id/todoListContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -23,6 +24,14 @@
             android:dividerHeight="40dp"
             tools:layout_height="200dp" />
     </FrameLayout>
+
+    <Button
+        android:id="@+id/addMoreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/AddMoreBorderLessButton"
+        android:layout_below="@id/todoListContainer"
+        android:text="@string/add_more_button_text" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -52,6 +61,5 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerInParent="true" />
-
 
 </RelativeLayout>

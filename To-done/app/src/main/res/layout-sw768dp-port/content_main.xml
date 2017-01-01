@@ -38,6 +38,14 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_ad_unit_id" />
 
+    <Button
+        android:id="@+id/addMoreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/todoListContainer"
+        android:text="@string/add_more_button_text"
+        style="@style/AddMoreBorderLessButton" />
+
     <TextView
         android:id="@+id/timeDiffTextView"
         style="@style/LetterSpacedTextView"

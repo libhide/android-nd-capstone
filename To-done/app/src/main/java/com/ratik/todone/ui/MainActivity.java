@@ -14,6 +14,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    public static final String FROM_MAIN = "fromMain";
+
     private TodoAdapter adapter;
     private ListView todoListView;
 
@@ -87,6 +90,17 @@ public class MainActivity extends AppCompatActivity
         String time = String.format(getString(R.string.time_difference_text),
                 TimeHelper.getHumanReadableTimeDifference(notifTime));
         timeDifferenceTextView.setText(time);
+
+        Button addMoreButton = (Button) findViewById(R.id.addMoreButton);
+        addMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, InputActivity.class);
+                intent.putExtra(FROM_MAIN, true);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
