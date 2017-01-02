@@ -73,6 +73,12 @@ public class FormDialog extends DialogFragment implements TimePickerDialog.OnTim
 
         // Do something with the time chosen by the user
         Calendar c = Calendar.getInstance();
+        if (hourOfDay < c.get(Calendar.HOUR_OF_DAY)) {
+            // day's changing
+            int currentDay = c.get(Calendar.DATE);
+            c.set(Calendar.DATE, currentDay + 1);
+        }
+
         c.set(Calendar.HOUR_OF_DAY, hourOfDay);
         c.set(Calendar.MINUTE, minute);
         timeSetListener.onTimeSet(c);

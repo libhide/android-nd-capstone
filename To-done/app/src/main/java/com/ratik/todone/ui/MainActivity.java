@@ -77,9 +77,11 @@ public class MainActivity extends AppCompatActivity
         }
 
         // ui things
+        int date = Prefs.getInt(InputActivity.DATE, 1);
         int hours = Prefs.getInt(InputActivity.HOUR_OF_DAY, 0);
         int minutes = Prefs.getInt(InputActivity.MINUTE, 0);
         Calendar notifTime = Calendar.getInstance();
+        notifTime.set(Calendar.DATE, date);
         notifTime.set(Calendar.HOUR_OF_DAY, hours);
         notifTime.set(Calendar.MINUTE, minutes);
         String time = String.format(getString(R.string.time_difference_text),

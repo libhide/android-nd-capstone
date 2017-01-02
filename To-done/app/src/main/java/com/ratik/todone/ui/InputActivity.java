@@ -34,6 +34,7 @@ public class InputActivity extends AppCompatActivity implements
 
     public static final String TAG = InputActivity.class.getSimpleName();
 
+    public static final String DATE = "date";
     public static final String HOUR_OF_DAY = "hour";
     public static final String MINUTE = "minute";
     public static final String TOTAL_TODOS = "total_todos";

@@ -30,6 +30,7 @@ public class AlarmHelper {
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
 
         // save hour and minute for later use
+        Prefs.putInt(InputActivity.DATE, calendar.get(Calendar.DATE));
         Prefs.putInt(InputActivity.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
         Prefs.putInt(InputActivity.MINUTE, calendar.get(Calendar.MINUTE));
     }
