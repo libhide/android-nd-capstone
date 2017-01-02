@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#1B236B</color>
+    <color name="colorPrimaryWidget">#1b236b</color>
     <color name="colorPrimaryDark">#161d58</color>
     <color name="colorAccent">#D50000</color>
     <color name="colorSuccess">#4F8A10</color>

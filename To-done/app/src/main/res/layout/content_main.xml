@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:weightSum="2"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/todoListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="20dp"
+        android:layout_weight="1.4"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="40dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6"
         android:orientation="vertical">
-
-        <ListView
-            android:id="@+id/todoListView"
-            android:layout_width="match_parent"
-            android:layout_height="360dp"
-            android:layout_marginEnd="22dp"
-            android:layout_marginLeft="23dp"
-            android:layout_marginRight="22dp"
-            android:layout_marginStart="23dp"
-            android:layout_marginTop="20dp"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="32dp" />
 
         <Button
             android:id="@+id/addMoreButton"
             style="@style/AddMoreBorderLessButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="15dp"
             android:text="@string/add_more_button_text" />
 
         <TextView
@@ -50,13 +56,5 @@
             android:layout_gravity="center|bottom"
             ads:adSize="BANNER"
             ads:adUnitId="@string/banner_ad_unit_id" />
-
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerInParent="true" />
-
-</RelativeLayout>
+</LinearLayout>

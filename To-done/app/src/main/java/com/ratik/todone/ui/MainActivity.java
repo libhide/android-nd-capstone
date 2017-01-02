@@ -50,14 +50,11 @@ public class MainActivity extends AppCompatActivity
     private CoordinatorLayout mainLayout;
     private TextView timeDifferenceTextView;
     private AdView adView;
-    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         // AdMob
         adView = (AdView) findViewById(R.id.adView);
@@ -179,8 +176,6 @@ public class MainActivity extends AppCompatActivity
     // Creates a new loader after the initLoader() call
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        progressBar.setVisibility(View.VISIBLE);
-
         String[] projection = {
                 TodoContract.TodoEntry._ID,
                 TodoContract.TodoEntry.COLUMN_ID,
@@ -200,7 +195,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         adapter.swapCursor(cursor);
-        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
