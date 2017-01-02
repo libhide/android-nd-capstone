@@ -26,7 +26,7 @@
             android:layout_marginStart="23dp"
             android:layout_marginTop="30dp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="40dp" />
+            android:dividerHeight="32dp" />
     </FrameLayout>
 
     <com.google.android.gms.ads.AdView
@@ -40,11 +40,15 @@
 
     <Button
         android:id="@+id/addMoreButton"
+        style="@style/AddMoreBorderLessButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/todoListContainer"
-        android:text="@string/add_more_button_text"
-        style="@style/AddMoreBorderLessButton" />
+        android:layout_marginEnd="@dimen/main_list_horizontal_margin"
+        android:layout_marginLeft="@dimen/main_list_horizontal_margin"
+        android:layout_marginRight="@dimen/main_list_horizontal_margin"
+        android:layout_marginStart="@dimen/main_list_horizontal_margin"
+        android:text="@string/add_more_button_text" />
 
     <TextView
         android:id="@+id/timeDiffTextView"

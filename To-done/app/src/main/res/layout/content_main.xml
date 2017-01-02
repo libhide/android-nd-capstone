@@ -6,55 +6,52 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
-    <FrameLayout
-        android:id="@+id/todoListContainer"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ListView
             android:id="@+id/todoListView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="360dp"
             android:layout_marginEnd="22dp"
             android:layout_marginLeft="23dp"
             android:layout_marginRight="22dp"
             android:layout_marginStart="23dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="40dp"
-            tools:layout_height="200dp" />
-    </FrameLayout>
+            android:dividerHeight="32dp" />
 
-    <Button
-        android:id="@+id/addMoreButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/AddMoreBorderLessButton"
-        android:layout_below="@id/todoListContainer"
-        android:text="@string/add_more_button_text" />
+        <Button
+            android:id="@+id/addMoreButton"
+            style="@style/AddMoreBorderLessButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_more_button_text" />
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id" />
+        <TextView
+            android:id="@+id/timeDiffTextView"
+            style="@style/LetterSpacedTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="#98ffffff"
+            android:textSize="14sp"
+            tools:text="> 2 HRS LEFT FOR THESE TASKS" />
 
-    <TextView
-        android:id="@+id/timeDiffTextView"
-        style="@style/LetterSpacedTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/adView"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:fontFamily="sans-serif-light"
-        android:textColor="#98ffffff"
-        android:textSize="14sp"
-        tools:text="> 2 HRS LEFT FOR THESE TASKS" />
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"

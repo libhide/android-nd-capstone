@@ -35,6 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/todoListContainer"
         android:text="@string/add_more_button_text"
+        android:layout_marginEnd="@dimen/main_list_horizontal_margin"
+        android:layout_marginLeft="@dimen/main_list_horizontal_margin"
+        android:layout_marginRight="@dimen/main_list_horizontal_margin"
+        android:layout_marginStart="@dimen/main_list_horizontal_margin"
         style="@style/AddMoreBorderLessButton" />
 
     <com.google.android.gms.ads.AdView
