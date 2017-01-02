@@ -16,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -69,7 +68,6 @@ public class MainActivity extends AppCompatActivity
         todoListView = (ListView) findViewById(R.id.todoListView);
         adapter = new TodoAdapter(this, null);
         todoListView.setAdapter(adapter);
-        getLoaderManager().initLoader(0, null, this);
 
         if (!Prefs.getBoolean(Constants.LIST_EXISTS, false)) {
             Snackbar.make(mainLayout, R.string.get_to_work_text,
@@ -95,7 +93,6 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, InputActivity.class);
                 intent.putExtra(FROM_MAIN, true);
                 startActivity(intent);
-                finish();
             }
         });
     }
@@ -103,6 +100,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        // Get data
+        getLoaderManager().initLoader(0, null, this);
+
         // Update widget
         WidgetHelper.updateWidget(this);
 
