@@ -25,7 +25,6 @@ import com.ratik.todone.util.Constants;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
@@ -38,12 +37,14 @@ public class InputActivity extends AppCompatActivity implements
     public static final String HOUR_OF_DAY = "hour";
     public static final String MINUTE = "minute";
     public static final String TOTAL_TODOS = "total_todos";
+    private static final String TODOS = "todos";
 
-    private List<String> todos;
+    private ArrayList<String> todos;
     private ItemsToBeAddedAdapter adapter;
 
     private FloatingActionButton fab;
     private CoordinatorLayout inputLayout;
+    private ListView itemsToAddList;
 
     private Snackbar helperSnack;
 
@@ -68,6 +69,15 @@ public class InputActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_list_input);
 
         inputLayout = (CoordinatorLayout) findViewById(R.id.inputLayout);
+        itemsToAddList = (ListView) findViewById(R.id.itemsToAddList);
+        // load data
+        todos = new ArrayList<>();
+        if (savedInstanceState != null) {
+            // Log.d(TAG, savedInstanceState.getStringArrayList(TODOS).toString());
+            todos = savedInstanceState.getStringArrayList(TODOS);
+        }
+        adapter = new ItemsToBeAddedAdapter(this, todos);
+        itemsToAddList.setAdapter(adapter);
 
         final EditText itemInputEditText = (EditText) findViewById(R.id.itemInputEditText);
         itemInputEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -88,11 +98,6 @@ public class InputActivity extends AppCompatActivity implements
                 return handled;
             }
         });
-
-        todos = new ArrayList<>();
-        ListView itemsToAddList = (ListView) findViewById(R.id.itemsToAddList);
-        adapter = new ItemsToBeAddedAdapter(this, todos);
-        itemsToAddList.setAdapter(adapter);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +147,7 @@ public class InputActivity extends AppCompatActivity implements
         Intent intent = new Intent(InputActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
     }
 
     private void addItem(String s) {
@@ -193,9 +199,9 @@ public class InputActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putStringArrayList(TODOS, todos);
+        super.onSaveInstanceState(outState);
     }
 
     // Helpers

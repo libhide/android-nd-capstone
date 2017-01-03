@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.pixplicity.easyprefs.library.Prefs;
+import com.ratik.todone.provider.TodoProvider;
 import com.ratik.todone.ui.InputActivity;
 import com.ratik.todone.util.AlarmHelper;
+import com.ratik.todone.util.NotificationHelper;
 
 import java.util.Calendar;
 
@@ -27,6 +29,9 @@ public class RebootReceiver extends BroadcastReceiver {
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);
             AlarmHelper.setTimeOverAlarm(context, calendar);
+            // cast notification
+            NotificationHelper.pushNotification(context,
+                    TodoProvider.getNumberOfUncheckedTasks(context));
         }
     }
 }
