@@ -20,18 +20,17 @@ public class RebootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-            int hourOfDay = Prefs.getInt(InputActivity.HOUR_OF_DAY, 0);
-            int minute = Prefs.getInt(InputActivity.MINUTE, 0);
-            // Set the alarm
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            calendar.set(Calendar.MINUTE, minute);
-            AlarmHelper.setTimeOverAlarm(context, calendar);
-            // cast notification
-            NotificationHelper.pushNotification(context,
-                    TodoProvider.getNumberOfUncheckedTasks(context));
-        }
+        int date = Prefs.getInt(InputActivity.DATE, 1);
+        int hourOfDay = Prefs.getInt(InputActivity.HOUR_OF_DAY, 0);
+        int minute = Prefs.getInt(InputActivity.MINUTE, 0);
+        // Set the alarm
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DATE, date);
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        calendar.set(Calendar.MINUTE, minute);
+        AlarmHelper.setTimeOverAlarm(context, calendar);
+        // cast notification
+        NotificationHelper.pushNotification(context,
+                TodoProvider.getNumberOfUncheckedTasks(context));
     }
 }

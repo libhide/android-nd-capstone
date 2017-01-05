@@ -10,13 +10,12 @@
 
     <application
         android:name=".TodoneApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.InputActivity">
+        <activity android:name=".ui.InputActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +30,15 @@
             android:exported="true" />
 
         <receiver android:name=".receiver.TimeOverReceiver" />
-        <receiver android:name=".receiver.RebootReceiver" />
+        <receiver
+            android:name=".receiver.RebootReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RebootFixer">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
         <receiver android:name=".widget.WidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
