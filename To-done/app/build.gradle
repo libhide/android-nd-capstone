@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'ratik'
             keyPassword 'password'
-            storeFile file("$rootDir/To-done/keystore.jks")
+            storeFile file("$rootDir/keystore.jks")
             storePassword 'password'
         }
     }
